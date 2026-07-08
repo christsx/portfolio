@@ -5,20 +5,31 @@
   import { fade, scale } from "svelte/transition";
   import { cubicOut } from "svelte/easing";
   import { goto } from "$app/navigation";
-  import { resolve } from "$app/paths";
-  import type { Pathname } from "$app/types";
   import { onNavigate } from "$app/navigation";
   import { cn } from "$lib/utils/cn";
   import ScrollArea from "$lib/components/ui/ScrollArea.svelte";
   import { onMount } from "svelte";
+  import { resolve } from "$app/paths";
   import Search from "carbon-icons-svelte/lib/Search.svelte";
   import Return from "carbon-icons-svelte/lib/Return.svelte";
+  import type { Pathname } from "$app/types";
 
   let query = $state("");
   let results = $derived(searchDocs(query));
   let selectedIndex = $state(0);
   let inputRef = $state<HTMLInputElement>();
   let contentHeight = $state(0);
+  let resultsRef = $state<HTMLDivElement | null>(null);
+  let selectedIndicatorTop = $state(0);
+  let selectedIndicatorHeight = $state(0);
+  let selectedIndicatorVisible = $state(false);
+  let selectedGlowLeft = $state(0);
+  let selectedGlowTop = $state(0);
+  let selectedGlowHeight = $state(0);
+  let selectedGlowVisible = $state(false);
+  let selectedResultElement: HTMLElement | null = null;
+  let selectedResultIsChild = false;
+  let pendingSelectedIndicatorFrame: number | null = null;
 
   function handleGlobalKeydown(e: KeyboardEvent) {
     const hotkey = docsUiConfig.search.hotkey;
@@ -51,6 +62,92 @@
   $effect(() => {
     void results;
     selectedIndex = 0;
+  });
+
+  function updateSelectedIndicators() {
+    if (!resultsRef || !selectedResultElement) {
+      selectedIndicatorVisible = false;
+      selectedGlowVisible = false;
+      return;
+    }
+
+    const resultsRect = resultsRef.getBoundingClientRect();
+    const nodeRect = selectedResultElement.getBoundingClientRect();
+
+    selectedIndicatorTop = nodeRect.top - resultsRect.top;
+    selectedIndicatorHeight = nodeRect.height;
+    selectedIndicatorVisible = true;
+
+    selectedGlowLeft = nodeRect.left - resultsRect.left + 12;
+    selectedGlowTop = selectedIndicatorTop;
+    selectedGlowHeight = selectedIndicatorHeight;
+    selectedGlowVisible = selectedResultIsChild;
+  }
+
+  function scheduleSelectedIndicatorUpdate() {
+    if (typeof window === "undefined") {
+      updateSelectedIndicators();
+      return;
+    }
+
+    if (pendingSelectedIndicatorFrame !== null) {
+      window.cancelAnimationFrame(pendingSelectedIndicatorFrame);
+    }
+
+    pendingSelectedIndicatorFrame = window.requestAnimationFrame(() => {
+      pendingSelectedIndicatorFrame = null;
+      updateSelectedIndicators();
+    });
+  }
+
+  function registerResult(node: HTMLElement, params: { selected: boolean; child: boolean }) {
+    if (params.selected) {
+      selectedResultElement = node;
+      selectedResultIsChild = params.child;
+      scheduleSelectedIndicatorUpdate();
+    }
+
+    return {
+      update(nextParams: { selected: boolean; child: boolean }) {
+        if (nextParams.selected) {
+          selectedResultElement = node;
+          selectedResultIsChild = nextParams.child;
+          scheduleSelectedIndicatorUpdate();
+        } else if (selectedResultElement === node) {
+          selectedResultElement = null;
+          selectedResultIsChild = false;
+          scheduleSelectedIndicatorUpdate();
+        }
+      },
+      destroy() {
+        if (selectedResultElement === node) {
+          selectedResultElement = null;
+          selectedResultIsChild = false;
+          scheduleSelectedIndicatorUpdate();
+        }
+      },
+    };
+  }
+
+  $effect(() => {
+    const index = selectedIndex;
+    const resultCount = results.length;
+    void index;
+    void resultCount;
+
+    scheduleSelectedIndicatorUpdate();
+
+    if (typeof window === "undefined") return;
+
+    window.addEventListener("resize", scheduleSelectedIndicatorUpdate);
+
+    return () => {
+      window.removeEventListener("resize", scheduleSelectedIndicatorUpdate);
+      if (pendingSelectedIndicatorFrame !== null) {
+        window.cancelAnimationFrame(pendingSelectedIndicatorFrame);
+        pendingSelectedIndicatorFrame = null;
+      }
+    };
   });
 
   function close() {
@@ -132,7 +229,7 @@
     onkeydown={(e) => e.key === "Escape" && close()}
   >
     <div
-      class="card bg-background relative w-full max-w-164 transform-gpu rounded-lg"
+      class="bg-background card relative w-full max-w-164 transform-gpu rounded-lg"
       role="document"
       transition:scale={{
         duration: 300,
@@ -144,8 +241,10 @@
         contentHeight = 0;
       }}
     >
-      <div class="border-border/60 flex items-center border-b px-3">
-        <Search size={24} class="text-foreground-muted/70 mr-2" />
+      <div
+        class="after:bg-border dark:after:bg-background-inset dark:after:shadow-border relative flex items-center px-3 after:absolute after:inset-x-0 after:bottom-0 after:h-px after:shadow-2xs after:shadow-white after:content-['']"
+      >
+        <Search size={24} class="text-foreground-muted/70 mr-2" />Z
         <input
           bind:this={inputRef}
           bind:value={query}
@@ -164,58 +263,71 @@
         <div bind:clientHeight={contentHeight}>
           {#if results.length > 0}
             <ScrollArea
-              mode="vertical"
               viewportStyle="mask-image: linear-gradient(to bottom, transparent, black 8px, black calc(100% - 8px), transparent); -webkit-mask-image: linear-gradient(to bottom, transparent, black 8px, black calc(100% - 8px), transparent);"
               viewportClass="max-h-96 p-2"
             >
-              {#each results as result, i (result.slug + (result.anchor || "") + i)}
-                {@const isChild = result.matchType === "heading" || result.matchType === "content"}
-                <button
-                  class={cn(
-                    "group relative flex w-full flex-col items-start gap-1 truncate rounded-sm px-3 py-2 text-sm font-medium tracking-normal",
-                    isChild && "pl-8",
-                    i === selectedIndex
-                      ? "bg-background-muted text-foreground"
-                      : "text-foreground hover:bg-background-muted",
-                  )}
-                  onclick={() => selectResult(result)}
-                  onmouseenter={() => (selectedIndex = i)}
-                >
-                  {#if isChild}
-                    <div class={cn("bg-border absolute top-0 bottom-0 left-3 w-px")}></div>
-                  {/if}
+              <div
+                class="command-results relative flex flex-col"
+                bind:this={resultsRef}
+                style={`
+										--command-selected-top: ${selectedIndicatorTop}px;
+										--command-selected-height: ${selectedIndicatorHeight}px;
+										--command-selected-opacity: ${selectedIndicatorVisible ? 1 : 0};
+										--command-glow-left: ${selectedGlowLeft}px;
+										--command-glow-top: ${selectedGlowTop}px;
+										--command-glow-height: ${selectedGlowHeight}px;
+										--command-glow-opacity: ${selectedGlowVisible ? 1 : 0};
+									`}
+              >
+                {#each results as result, i (result.slug + (result.anchor || "") + i)}
+                  {@const isChild = result.matchType === "heading" || result.matchType === "content"}
+                  {@const isSelected = i === selectedIndex}
+                  <button
+                    class={cn(
+                      "group relative z-10 flex w-full flex-col items-start gap-1 rounded-sm px-3 py-2 text-sm font-medium tracking-normal transition-colors duration-150 ease-out",
+                      isChild && "pl-8",
+                      isSelected ? "text-foreground" : "text-foreground hover:text-foreground",
+                    )}
+                    onclick={() => selectResult(result)}
+                    onmouseenter={() => (selectedIndex = i)}
+                    use:registerResult={{ selected: isSelected, child: isChild }}
+                  >
+                    {#if isChild}
+                      <div class={cn("bg-border absolute top-0 bottom-0 left-3 w-px")}></div>
+                    {/if}
 
-                  <div class="flex w-full flex-col items-start gap-0.5">
-                    {#if result.matchType !== "content"}
-                      <div class="flex items-center gap-2 font-medium tracking-normal">
-                        {#if result.matchType === "heading"}
-                          <span class="opacity-70">#</span>
-                        {/if}
-                        <span>
-                          {#each highlight(result.heading || result.title, query) as part, index (index)}
+                    <div class="flex w-full flex-col items-start gap-0.5">
+                      {#if result.matchType !== "content"}
+                        <div class="flex items-center gap-2 font-medium tracking-normal">
+                          {#if result.matchType === "heading"}
+                            <span class="opacity-70">#</span>
+                          {/if}
+                          <span>
+                            {#each highlight(result.heading || result.title, query) as part, index (index)}
+                              {#if part.highlight}
+                                <span class="text-accent">{part.text}</span>
+                              {:else}
+                                {part.text}
+                              {/if}
+                            {/each}
+                          </span>
+                        </div>
+                      {/if}
+                      {#if result.snippet}
+                        <div class="text-foreground-muted line-clamp-1 text-left text-xs font-medium tracking-normal">
+                          {#each highlight(result.snippet, query) as part, index (index)}
                             {#if part.highlight}
                               <span class="text-accent">{part.text}</span>
                             {:else}
                               {part.text}
                             {/if}
                           {/each}
-                        </span>
-                      </div>
-                    {/if}
-                    {#if result.snippet}
-                      <div class="text-foreground-muted line-clamp-1 text-left text-xs font-medium tracking-normal">
-                        {#each highlight(result.snippet, query) as part, index (index)}
-                          {#if part.highlight}
-                            <span class="text-accent">{part.text}</span>
-                          {:else}
-                            {part.text}
-                          {/if}
-                        {/each}
-                      </div>
-                    {/if}
-                  </div>
-                </button>
-              {/each}
+                        </div>
+                      {/if}
+                    </div>
+                  </button>
+                {/each}
+              </div>
             </ScrollArea>
           {:else if query}
             <div class="text-foreground-muted/70 py-6 text-center text-sm tracking-normal">
@@ -225,7 +337,7 @@
         </div>
       </div>
       <div
-        class="border-border/60 bg-background flex w-full flex-row items-center justify-start gap-2 rounded-b-lg border-t p-2"
+        class="bg-background after:bg-border dark:after:bg-background-inset dark:after:shadow-border relative flex w-full flex-row items-center justify-start gap-2 rounded-b-lg p-2 after:absolute after:inset-x-0 after:top-0 after:h-px after:shadow-2xs after:shadow-white after:content-['']"
       >
         <kbd
           class="inset-shadow bg-background-inset text-foreground-muted/70 pointer-events-none relative hidden h-5 items-center gap-1 rounded-[calc(var(--radius-base)*1.5)] px-1.5 font-mono text-[10px] font-medium select-none sm:flex"
@@ -247,5 +359,58 @@
     outline-color: transparent !important;
     outline-offset: 0 !important;
     box-shadow: none !important;
+  }
+
+  .command-results::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0px;
+    top: 0;
+    height: var(--command-selected-height);
+    border-radius: var(--radius-sm);
+    background: var(--color-background-muted);
+    opacity: var(--command-selected-opacity);
+    pointer-events: none;
+    transform: translateY(var(--command-selected-top));
+    transition:
+      transform 150ms ease-out,
+      height 150ms ease-out,
+      opacity 150ms ease-out;
+    will-change: transform, height, opacity;
+    z-index: 0;
+  }
+
+  .command-results::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: var(--command-glow-height);
+    border-radius: 9999px;
+    background-image: linear-gradient(
+      to bottom,
+      transparent,
+      oklch(from var(--color-accent) l c h / 0.68) 18%,
+      var(--color-accent) 50%,
+      oklch(from var(--color-accent) l c h / 0.68) 82%,
+      transparent
+    );
+    filter: drop-shadow(0 0 6px oklch(from var(--color-accent) l c h / 0.38));
+    opacity: var(--command-glow-opacity);
+    pointer-events: none;
+    transform: translate(var(--command-glow-left), var(--command-glow-top));
+    transition:
+      transform 150ms ease-out,
+      height 150ms ease-out,
+      opacity 150ms ease-out;
+    will-change: transform, height, opacity;
+    z-index: 20;
+  }
+
+  @media (max-width: 1023.98px) {
+    .command-results::before {
+      display: none;
+    }
   }
 </style>
