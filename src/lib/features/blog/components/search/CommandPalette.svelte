@@ -244,7 +244,7 @@
       <div
         class="after:bg-border dark:after:bg-background-inset dark:after:shadow-border relative flex items-center px-3 after:absolute after:inset-x-0 after:bottom-0 after:h-px after:shadow-2xs after:shadow-white after:content-['']"
       >
-        <Search size={24} class="text-foreground-muted/70 mr-2" />Z
+        <Search size={24} class="text-foreground-muted/70 mr-2" />
         <input
           bind:this={inputRef}
           bind:value={query}

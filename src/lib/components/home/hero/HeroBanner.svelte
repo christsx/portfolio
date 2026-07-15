@@ -13,8 +13,8 @@
 </script>
 
 <SectionBlock>
-  <div class="bg-background inset-shadow relative h-54 w-full rounded-xl">
-    <div class="absolute inset-0 overflow-hidden rounded-lg">
+  <div class="bg-background-inset inset-shadow rounded-lg relative h-54 w-full">
+    <div class="absolute inset-1.5 card overflow-hidden rounded-md">
       <img
         class="hero-bg-light h-full w-full object-cover object-[35%25%]"
         src={backgroundSrc}
@@ -37,7 +37,7 @@
       />
     </div>
 
-    <div class="bg-background-inset inset-shadow absolute bottom-0 left-4 z-5 size-32 translate-y-1/2 rounded-full p-1">
+    <div class="bg-background-inset inset-shadow absolute bottom-0 left-4 z-5 size-32 translate-y-1/2 rounded-full p-1.5">
       <img
         class="card rounded-full object-cover"
         src={avatarSrc}
