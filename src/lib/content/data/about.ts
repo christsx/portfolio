@@ -85,7 +85,7 @@ export const aboutData: { title: string; items: AboutListItem[] } = {
       nestedList: [
         {
           content: [
-            { type: "highlight", text: "1400+ stars" },
+            { type: "highlight", text: "1700+ stars" },
             { type: "link", text: " on GitHub", href: "https://github.com/66HEX/frame" },
           ],
         },
