@@ -2,36 +2,35 @@ import type { HomepageContent } from "../types";
 
 export const siteData: Pick<HomepageContent, "site" | "seo" | "header"> = {
   site: {
-    siteName: "Marek Jóźwiak",
+    siteName: "Christian Garcia",
     siteUrl: "https://madebyhex.com",
     locale: "en_US",
-    twitterHandle: "@madebyhex",
+    twitterHandle: "@christsx",
     defaultOgImage: "/og-image.jpg",
-    defaultOgImageAlt: "Marek Jóźwiak portfolio banner",
-    jobTitle: "Creative Developer",
+    defaultOgImageAlt: "Christian Garcia portfolio banner",
+    jobTitle: "Developer, Founder & Investor",
     sameAsLinks: [
-      "https://github.com/66HEX",
-      "https://www.linkedin.com/in/marek-j%C3%B3%C5%BAwiak-29958132a/",
-      "https://x.com/madebyhex",
+      "https://github.com/christsx",
+      "https://www.linkedin.com/in/christiangarcia0/",
+      "https://x.com/christsx",
     ],
   },
   seo: {
-    title: "Marek Jóźwiak | Creative Developer",
+    title: "Christian Garcia | Developer, Founder & Investor",
     description:
-      "Portfolio of Marek Jóźwiak - Creative developer focused on product interfaces, front-end architecture, and performance-first SvelteKit development.",
-    imageAlt: "Open Graph Image for Marek Jóźwiak's Portfolio",
+      "Portfolio of Christian Garcia — developer, founder, and investor building products and backing the next wave of startups.",
+    imageAlt: "Open Graph Image for Christian Garcia's Portfolio",
     keywords: [
-      "Marek Jóźwiak",
-      "Design Engineer",
-      "Front-end Developer",
-      "SvelteKit",
-      "UI Engineering",
-      "Product Design",
-      "Web Performance",
+      "Christian Garcia",
+      "Developer",
+      "Founder",
+      "Investor",
+      "Builder",
+      "Startup",
       "Portfolio",
     ],
   },
   header: {
-    h1: "Marek Jóźwiak - Creative Developer portfolio",
+    h1: "Christian Garcia - Developer, Founder & Investor portfolio",
   },
 };

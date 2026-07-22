@@ -9,6 +9,7 @@ declare global {
     interface Platform {
       env?: {
         GITHUB_TOKEN?: string;
+        PORTFOLIO_TOKEN?: string;
         RESEND_API_KEY?: string;
         CONTACT_FROM_EMAIL?: string;
         CONTACT_TO_EMAIL?: string;

@@ -83,9 +83,8 @@
   <HeroBanner
     avatarSrc={homepageContent.hero.avatarSrc}
     avatarAlt={homepageContent.hero.avatarAlt}
-    backgroundSrc={homepageContent.hero.backgroundSrc}
-    backgroundDarkSrc={homepageContent.hero.backgroundDarkSrc}
-    backgroundAlt={homepageContent.hero.backgroundAlt}
+    videoSrc={homepageContent.hero.videoSrc}
+    videoAlt={homepageContent.hero.videoAlt}
   />
   <SocialLinksRow
     name={homepageContent.socialRow.name}

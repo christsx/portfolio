@@ -1,20 +1,35 @@
 import { githubData } from "$lib/content/data/github";
 
+type ContributionCalendar = {
+  totalContributions?: number;
+  weeks?: Array<{
+    contributionDays?: Array<{
+      contributionCount?: number;
+      date?: string;
+    }>;
+  }>;
+};
+
 type GitHubGraphQLResponse = {
   data?: {
+    viewer?: {
+      login?: string;
+      contributionsCollection?: {
+        totalCommitContributions?: number;
+        totalIssueContributions?: number;
+        totalPullRequestContributions?: number;
+        totalPullRequestReviewContributions?: number;
+        restrictedContributionsCount?: number;
+        contributionCalendar?: ContributionCalendar;
+      };
+    };
     user?: {
       contributionsCollection?: {
-        contributionCalendar?: {
-          weeks?: Array<{
-            contributionDays?: Array<{
-              contributionCount?: number;
-              date?: string;
-            }>;
-          }>;
-        };
+        contributionCalendar?: ContributionCalendar;
       };
     };
   };
+  errors?: Array<{ message?: string }>;
 };
 
 export type GitHubContribution = {
@@ -28,16 +43,42 @@ export const GITHUB_USERNAME =
   githubData.githubCard.username.trim().length > 0 ? githubData.githubCard.username.trim() : DEFAULT_GITHUB_USERNAME;
 
 const GITHUB_GRAPHQL_URL = "https://api.github.com/graphql";
-const GRAPH_DAYS = 364;
-const GITHUB_TIMEOUT_MS = 1200;
+const GRAPH_DAYS = 365;
+const GITHUB_TIMEOUT_MS = 8000;
 const GITHUB_CACHE_TTL_MS = 5 * 60 * 1000;
 const IN_FLIGHT_STALE_MS = 10 * 1000;
 
-const contributionsQuery = `
+// Prefer viewer so private contributions are included for the authenticated account.
+const viewerContributionsQuery = `
+query Contributions($from: DateTime!, $to: DateTime!) {
+  viewer {
+    login
+    contributionsCollection(from: $from, to: $to) {
+      totalCommitContributions
+      totalIssueContributions
+      totalPullRequestContributions
+      totalPullRequestReviewContributions
+      restrictedContributionsCount
+      contributionCalendar {
+        totalContributions
+        weeks {
+          contributionDays {
+            contributionCount
+            date
+          }
+        }
+      }
+    }
+  }
+}
+`;
+
+const userContributionsQuery = `
 query Contributions($login: String!, $from: DateTime!, $to: DateTime!) {
   user(login: $login) {
     contributionsCollection(from: $from, to: $to) {
       contributionCalendar {
+        totalContributions
         weeks {
           contributionDays {
             contributionCount
@@ -65,8 +106,22 @@ function hasFreshCache(): boolean {
 function buildRequestRange() {
   const to = new Date();
   const from = new Date(to);
-  from.setDate(to.getDate() - (GRAPH_DAYS - 1));
+  from.setUTCDate(to.getUTCDate() - (GRAPH_DAYS - 1));
+  from.setUTCHours(0, 0, 0, 0);
   return { from, to };
+}
+
+function calendarToContributions(calendar: ContributionCalendar | undefined): GitHubContribution[] | null {
+  const weeks = calendar?.weeks ?? [];
+  const contributions = weeks
+    .flatMap((week) => week.contributionDays ?? [])
+    .map((day) => ({
+      date: day.date ?? "",
+      count: Math.max(0, day.contributionCount ?? 0),
+    }))
+    .filter((day) => day.date.length > 0);
+
+  return contributions.length > 0 ? contributions : null;
 }
 
 async function requestGitHubContributions(fetchFn: typeof fetch, token: string): Promise<GitHubContribution[] | null> {
@@ -84,9 +139,8 @@ async function requestGitHubContributions(fetchFn: typeof fetch, token: string):
         "User-Agent": "portfolio",
       },
       body: JSON.stringify({
-        query: contributionsQuery,
+        query: viewerContributionsQuery,
         variables: {
-          login: GITHUB_USERNAME,
           from: from.toISOString(),
           to: to.toISOString(),
         },
@@ -94,26 +148,82 @@ async function requestGitHubContributions(fetchFn: typeof fetch, token: string):
     });
 
     if (!response.ok) {
+      console.error("[github] HTTP error:", response.status);
       return null;
     }
 
     const payload = (await response.json()) as GitHubGraphQLResponse;
-    const weeks = payload.data?.user?.contributionsCollection?.contributionCalendar?.weeks ?? [];
 
-    const contributions = weeks
-      .flatMap((week) => week.contributionDays ?? [])
-      .map((day) => ({
-        date: day.date ?? "",
-        count: Math.max(0, day.contributionCount ?? 0),
-      }))
-      .filter((day) => day.date.length > 0);
+    if (payload.errors?.length) {
+      console.error("[github] GraphQL errors:", payload.errors.map((e) => e.message).join("; "));
+      return null;
+    }
 
-    return contributions.length > 0 ? contributions : null;
-  } catch {
+    const viewerLogin = payload.data?.viewer?.login?.trim().toLowerCase();
+    const expectedLogin = GITHUB_USERNAME.toLowerCase();
+
+    // If the token belongs to someone else, fall back to public user calendar.
+    if (viewerLogin && viewerLogin !== expectedLogin) {
+      console.warn(
+        `[github] Token viewer (${viewerLogin}) != portfolio username (${expectedLogin}); using public user calendar.`,
+      );
+      return requestPublicUserContributions(fetchFn, token, from, to);
+    }
+
+    const collection = payload.data?.viewer?.contributionsCollection;
+    const calendar = collection?.contributionCalendar;
+    const total = calendar?.totalContributions ?? 0;
+    console.info(
+      `[github] Loaded ${total} contributions for ${viewerLogin ?? expectedLogin}` +
+        ` (commits=${collection?.totalCommitContributions ?? 0}` +
+        `, prs=${collection?.totalPullRequestContributions ?? 0}` +
+        `, reviews=${collection?.totalPullRequestReviewContributions ?? 0}` +
+        `, issues=${collection?.totalIssueContributions ?? 0}` +
+        `, restricted=${collection?.restrictedContributionsCount ?? 0})`,
+    );
+    return calendarToContributions(calendar);
+  } catch (error) {
+    console.error("[github] Fetch failed:", error);
     return null;
   } finally {
     clearTimeout(timeoutId);
   }
+}
+
+async function requestPublicUserContributions(
+  fetchFn: typeof fetch,
+  token: string,
+  from: Date,
+  to: Date,
+): Promise<GitHubContribution[] | null> {
+  const response = await fetchFn(GITHUB_GRAPHQL_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+      "User-Agent": "portfolio",
+    },
+    body: JSON.stringify({
+      query: userContributionsQuery,
+      variables: {
+        login: GITHUB_USERNAME,
+        from: from.toISOString(),
+        to: to.toISOString(),
+      },
+    }),
+  });
+
+  if (!response.ok) {
+    return null;
+  }
+
+  const payload = (await response.json()) as GitHubGraphQLResponse;
+  if (payload.errors?.length) {
+    console.error("[github] GraphQL errors:", payload.errors.map((e) => e.message).join("; "));
+    return null;
+  }
+
+  return calendarToContributions(payload.data?.user?.contributionsCollection?.contributionCalendar);
 }
 
 function startRefresh(fetchFn: typeof fetch, token: string): Promise<GitHubContribution[] | null> {
@@ -174,4 +284,11 @@ export async function getGitHubContributions(
   }
 
   return startRefresh(fetchFn, token);
+}
+
+/** Clear in-memory cache (e.g. after token/username changes in dev). */
+export function clearGitHubContributionsCache(): void {
+  cache = null;
+  inFlight = null;
+  inFlightStartedAt = 0;
 }

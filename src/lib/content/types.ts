@@ -76,9 +76,8 @@ export type HomepageContent = {
   hero: {
     avatarSrc: string;
     avatarAlt: string;
-    backgroundSrc: string;
-    backgroundDarkSrc: string;
-    backgroundAlt: string;
+    videoSrc: string;
+    videoAlt: string;
   };
   about: {
     title: string;

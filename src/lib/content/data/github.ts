@@ -2,8 +2,9 @@ import type { HomepageContent } from "../types";
 
 export const githubData: Pick<HomepageContent, "githubCard"> = {
   githubCard: {
-    username: "66HEX",
-    missingTokenMessage: "Add `GITHUB_TOKEN` in environment variables to load live GitHub data.",
+    username: "christsx",
+    missingTokenMessage:
+      "Add a classic GitHub PAT (`read:user`) as `PORTFOLIO_TOKEN` so private contributions are included.",
     graphText: {
       monthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
       dayLabels: ["", "Mon", "", "Wed", "", "Fri", ""],

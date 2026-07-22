@@ -40,7 +40,7 @@ type BlogPostingJsonLdInput = {
 };
 
 export const seoConfig = {
-  themeColorLight: "oklch(0.712 0.0085 264.38)",
+  themeColorLight: "#18191B",
 };
 
 export const faviconLinks: LinkTag[] = [{ rel: "icon", href: "/favicon.svg", type: "image/svg+xml" }];

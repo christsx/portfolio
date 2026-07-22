@@ -6,7 +6,7 @@ export const footerData: Pick<HomepageContent, "footer"> = {
     headline: "Let's build something useful.",
     description: "Available for product design and front-end engineering projects.",
     socialLinks: socialLinks,
-    copyrightName: "Marek Jóźwiak",
+    copyrightName: "Christian Garcia",
     copyrightSuffix: "Crafted with SvelteKit.",
   },
 };

@@ -77,6 +77,18 @@ export function generateMockContributions(handle: string, amountOfDays: number):
   return values;
 }
 
+export function generateEmptyContributions(amountOfDays: number): ContributionInput[] {
+  const end = toStartOfDay(new SvelteDate());
+  const start = addDays(end, -(amountOfDays - 1));
+  const values: ContributionInput[] = [];
+
+  for (let i = 0; i < amountOfDays; i += 1) {
+    values.push({ date: addDays(start, i), count: 0 });
+  }
+
+  return values;
+}
+
 export function buildContributionDays(
   input: ContributionInput[],
   amountOfDays: number,
@@ -208,7 +220,7 @@ export class ContributionGraphState {
 
     this.normalizedDays = $derived.by(() => Math.max(7, this.days));
     this.inputData = $derived.by(() =>
-      this.data && this.data.length > 0 ? this.data : generateMockContributions(this.username, this.normalizedDays),
+      this.data && this.data.length > 0 ? this.data : generateEmptyContributions(this.normalizedDays),
     );
     this.dayCells = $derived.by(() => buildContributionDays(this.inputData, this.normalizedDays, this.text));
     this.weeks = $derived.by(() => groupByWeek(this.dayCells));
