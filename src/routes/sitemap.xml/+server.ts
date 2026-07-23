@@ -1,5 +1,6 @@
 import { getAllBlogPosts } from "$lib/features/blog/server/posts";
 import { homepageContent } from "$lib/content/homepage-content";
+import { env } from "$env/dynamic/public";
 import type { RequestHandler } from "./$types";
 
 type SitemapUrl = {
@@ -7,8 +8,26 @@ type SitemapUrl = {
   lastmod?: string;
 };
 
-function toAbsoluteUrl(pathname: string): string {
-  return new URL(pathname, homepageContent.site.siteUrl).toString();
+function resolveOrigin(requestOrigin: string): string {
+  const configured = env.PUBLIC_SITE_URL?.trim();
+  if (configured) {
+    return new URL(configured).origin;
+  }
+
+  if (requestOrigin && !requestOrigin.includes("localhost")) {
+    return requestOrigin;
+  }
+
+  const fallback = homepageContent.site.siteUrl;
+  if (fallback && !fallback.includes("localhost")) {
+    return new URL(fallback).origin;
+  }
+
+  return requestOrigin;
+}
+
+function toAbsoluteUrl(origin: string, pathname: string): string {
+  return new URL(pathname, origin).toString();
 }
 
 function normalizeDate(date: string | undefined): string | undefined {
@@ -33,18 +52,17 @@ function escapeXml(value: string): string {
     .replaceAll("'", "&apos;");
 }
 
-export const GET: RequestHandler = async ({ setHeaders }) => {
+export const GET: RequestHandler = async ({ url, setHeaders }) => {
+  const origin = resolveOrigin(url.origin);
   const posts = getAllBlogPosts();
 
   const urls: SitemapUrl[] = [
-    {
-      loc: toAbsoluteUrl("/"),
-    },
-    {
-      loc: toAbsoluteUrl("/llms.txt"),
-    },
+    { loc: toAbsoluteUrl(origin, "/") },
+    { loc: toAbsoluteUrl(origin, "/blog") },
+    { loc: toAbsoluteUrl(origin, "/algility") },
+    { loc: toAbsoluteUrl(origin, "/llms.txt") },
     ...posts.map((post) => ({
-      loc: toAbsoluteUrl(`/blog/${post.slug}`),
+      loc: toAbsoluteUrl(origin, `/blog/${post.slug}`),
       lastmod: normalizeDate(post.date),
     })),
   ];
@@ -53,11 +71,11 @@ export const GET: RequestHandler = async ({ setHeaders }) => {
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls
   .map(
-    (url) => `  <url>
-    <loc>${escapeXml(url.loc)}</loc>${
-      url.lastmod
+    (entry) => `  <url>
+    <loc>${escapeXml(entry.loc)}</loc>${
+      entry.lastmod
         ? `
-    <lastmod>${escapeXml(url.lastmod)}</lastmod>`
+    <lastmod>${escapeXml(entry.lastmod)}</lastmod>`
         : ""
     }
   </url>`,

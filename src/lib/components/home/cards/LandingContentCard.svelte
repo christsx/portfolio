@@ -35,7 +35,7 @@
     text: string;
     avatar: string;
     verified: boolean;
-    tweetUrl: string;
+    tweetUrl?: string;
   };
 
   export type LandingContentCardData = ProjectLandingCard | BlogLandingCard | TweetLandingCard;
@@ -136,19 +136,29 @@
         </div>
       </div>
 
-      <a
-        href={card.tweetUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="View on X"
-        class="text-foreground-muted hover:text-foreground shrink-0 transition-colors duration-150 ease-out"
-      >
-        <svg width="16" height="16" viewBox="0 0 1200 1227" aria-hidden="true" fill="currentColor">
-          <path
-            d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.163 519.284ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.828Z"
-          />
-        </svg>
-      </a>
+      {#if card.tweetUrl}
+        <a
+          href={card.tweetUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="View on X"
+          class="text-foreground-muted hover:text-foreground shrink-0 transition-colors duration-150 ease-out"
+        >
+          <svg width="16" height="16" viewBox="0 0 1200 1227" aria-hidden="true" fill="currentColor">
+            <path
+              d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.163 519.284ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.828Z"
+            />
+          </svg>
+        </a>
+      {:else}
+        <span class="text-foreground-muted shrink-0" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 1200 1227" fill="currentColor">
+            <path
+              d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.163 519.284ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.828Z"
+            />
+          </svg>
+        </span>
+      {/if}
     </div>
 
     <p class="text-foreground-muted mt-3 text-sm">

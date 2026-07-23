@@ -7,6 +7,12 @@ export const contactFormSchema = z.object({
     .min(2, "Name must be at least 2 characters long.")
     .max(80, "Name must be at most 80 characters long."),
   email: z.string().trim().max(160, "Email must be at most 160 characters long.").email("Enter a valid email address."),
+  phone: z
+    .string()
+    .trim()
+    .min(7, "Phone number must be at least 7 characters long.")
+    .max(30, "Phone number must be at most 30 characters long.")
+    .regex(/^[+\d][\d\s().-]{6,29}$/, "Enter a valid phone number."),
   subject: z
     .string()
     .trim()
@@ -21,8 +27,9 @@ export const contactFormSchema = z.object({
   turnstileToken: z
     .string()
     .trim()
-    .min(1, "Please complete the anti-bot verification.")
-    .max(2048, "Verification token is too long. Refresh the page and try again."),
+    .max(2048, "Verification token is too long. Refresh the page and try again.")
+    .optional()
+    .default(""),
 });
 
 export type ContactFormData = z.infer<typeof contactFormSchema>;

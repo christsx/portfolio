@@ -3,34 +3,39 @@ import type { HomepageContent } from "../types";
 export const siteData: Pick<HomepageContent, "site" | "seo" | "header"> = {
   site: {
     siteName: "Christian Garcia",
-    siteUrl: "https://madebyhex.com",
+    // Portfolio canonical host. Sitemap/robots prefer the live request origin.
+    // Set PUBLIC_SITE_URL in Vercel when you attach a custom domain.
+    siteUrl: "https://localhost",
     locale: "en_US",
     twitterHandle: "@garciatsx",
     defaultOgImage: "/og-image.jpg",
-    defaultOgImageAlt: "Christian Garcia portfolio banner",
-    jobTitle: "Developer, Founder & Investor",
+    defaultOgImageAlt: "Christian Garcia, founder of Algility",
+    jobTitle: "Founder of Algility",
     sameAsLinks: [
       "https://github.com/christsx",
       "https://www.linkedin.com/in/christiangarcia0/",
       "https://x.com/garciatsx",
+      "https://algility.com/",
+      "https://www.linkedin.com/company/algility",
     ],
   },
   seo: {
-    title: "Christian Garcia | Developer, Founder & Investor",
+    title: "Christian Garcia | Founder of Algility",
     description:
-      "Portfolio of Christian Garcia — developer, founder, and investor building products and backing the next wave of startups.",
-    imageAlt: "Open Graph Image for Christian Garcia's Portfolio",
+      "Christian Garcia is the founder of Algility — AI-native systems for sales, growth, and customer acquisition for SMBs and enterprises.",
+    imageAlt: "Christian Garcia, founder of Algility",
     keywords: [
       "Christian Garcia",
+      "Algility",
+      "Algility founder",
+      "AI-native growth",
+      "AI sales systems",
       "Developer",
       "Founder",
-      "Investor",
-      "Builder",
-      "Startup",
       "Portfolio",
     ],
   },
   header: {
-    h1: "Christian Garcia - Developer, Founder & Investor portfolio",
+    h1: "Christian Garcia - Founder of Algility",
   },
 };

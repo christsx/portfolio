@@ -45,7 +45,7 @@
 
         <p class="text-foreground-muted mt-2 text-xs leading-none font-medium">
           © {year}
-          {copyrightName}. {copyrightSuffix}
+          {copyrightName}{copyrightSuffix ? `. ${copyrightSuffix}` : ""}
         </p>
       </div>
     </div>

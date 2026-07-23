@@ -3,6 +3,7 @@ export const TURNSTILE_ACTION = "contact_form";
 export type ContactForm = {
   name: string;
   email: string;
+  phone: string;
   subject: string;
   message: string;
   website: string;
@@ -16,6 +17,7 @@ export function createEmptyContactForm(): ContactForm {
   return {
     name: "",
     email: "",
+    phone: "",
     subject: "",
     message: "",
     website: "",

@@ -31,9 +31,11 @@
     return result;
   }
 
-  const half = $derived(Math.ceil(items.length / 2));
-  const firstRow = $derived(ensureMinimumItems(items.slice(0, half)));
-  const secondRow = $derived(ensureMinimumItems(items.slice(half).length > 0 ? items.slice(half) : items));
+  // Most recent first (items are already newest → oldest).
+  const ordered = $derived(items);
+  const half = $derived(Math.ceil(ordered.length / 2));
+  const firstRow = $derived(ensureMinimumItems(ordered.slice(0, half)));
+  const secondRow = $derived(ensureMinimumItems(ordered.slice(half).length > 0 ? ordered.slice(half) : ordered));
 
   const firstTrack = $derived([...firstRow, ...firstRow]);
   const secondTrack = $derived([...secondRow, ...secondRow]);
@@ -43,8 +45,10 @@
   <div class="relative overflow-hidden">
     <div class="from-background-inset absolute inset-y-1 left-0 z-10 w-5 bg-linear-to-r to-transparent"></div>
     <div class="from-background-inset absolute inset-y-1 right-0 z-10 w-5 bg-linear-to-l to-transparent"></div>
+
+    <!-- Top row leads right-first so newest cards enter from the right -->
     <div class="marquee-row">
-      <div class="marquee-track marquee-left">
+      <div class="marquee-track marquee-right">
         {#each firstTrack as tweet, index (`first-${tweet.id_str}-${index}`)}
           <LandingContentCard
             card={{
@@ -54,7 +58,6 @@
               text: tweet.text,
               avatar: tweet.user.profile_image_url_https,
               verified: tweet.user.is_blue_verified || tweet.user.verified,
-              tweetUrl: `https://x.com/${tweet.user.screen_name}/status/${tweet.id_str}`,
             }}
           />
         {/each}
@@ -62,7 +65,7 @@
     </div>
 
     <div class="marquee-row mt-4">
-      <div class="marquee-track marquee-right">
+      <div class="marquee-track marquee-left">
         {#each secondTrack as tweet, index (`second-${tweet.id_str}-${index}`)}
           <LandingContentCard
             card={{
@@ -72,7 +75,6 @@
               text: tweet.text,
               avatar: tweet.user.profile_image_url_https,
               verified: tweet.user.is_blue_verified || tweet.user.verified,
-              tweetUrl: `https://x.com/${tweet.user.screen_name}/status/${tweet.id_str}`,
             }}
           />
         {/each}

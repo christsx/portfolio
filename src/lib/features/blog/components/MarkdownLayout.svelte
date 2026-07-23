@@ -29,7 +29,6 @@
 </script>
 
 <script lang="ts">
-  import { resolve } from "$app/paths";
   import { page } from "$app/state";
   import IconArrowLeft from "carbon-icons-svelte/lib/ArrowLeft.svelte";
   import FooterSection from "$lib/components/home/sections/FooterSection.svelte";
@@ -110,7 +109,7 @@
 <div class="w-full">
   <div class="p-4">
     <a
-      href={resolve("/")}
+      href="/"
       class="text-foreground-muted hover:text-foreground inline-flex items-center gap-1.5 text-xs leading-none font-medium duration-150 ease-out"
       aria-label="Back to home"
     >

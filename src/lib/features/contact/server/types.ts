@@ -3,4 +3,5 @@ export type PlatformEnv = {
   CONTACT_FROM_EMAIL?: string;
   CONTACT_TO_EMAIL?: string;
   TURNSTILE_SECRET_KEY?: string;
+  SLACK_WEBHOOK_URL?: string;
 };

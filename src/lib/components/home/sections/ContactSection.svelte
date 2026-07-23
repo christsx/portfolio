@@ -98,7 +98,7 @@
 
   onMount(() => {
     if (turnstileSiteKey.length === 0) {
-      turnstileError = "Anti-bot verification is not configured.";
+      // Allow submissions without Turnstile when the public site key isn't set.
       return;
     }
 
@@ -203,6 +203,7 @@
     const payload: ContactPayload = {
       name: form.name.trim(),
       email: form.email.trim(),
+      phone: form.phone.trim(),
       subject: form.subject.trim(),
       message: form.message.trim(),
       website: form.website,
@@ -240,7 +241,7 @@
 
 <SectionBlock title={content.title}>
   <ContentCard class="">
-    <form class="flex flex-col gap-3" data-turnstile-lazy-anchor novalidate onsubmit={handleSubmit}>
+    <form class="contact-form flex flex-col gap-3" data-turnstile-lazy-anchor novalidate onsubmit={handleSubmit}>
       <Input
         type="text"
         name="website"
@@ -285,6 +286,24 @@
       </label>
 
       <label class="flex flex-col gap-2">
+        <span class="text-foreground-muted text-xs leading-none font-medium">{content.form.phoneLabel}</span>
+        <div class="bg-background-inset inset-shadow h-7.5 rounded-sm">
+          <Input
+            type="tel"
+            name="phone"
+            variant="field"
+            size="field"
+            placeholder="+1 (555) 123-4567"
+            autocomplete="tel"
+            minlength="7"
+            maxlength="30"
+            required
+            bind:value={form.phone}
+          />
+        </div>
+      </label>
+
+      <label class="flex flex-col gap-2">
         <span class="text-foreground-muted text-xs leading-none font-medium">{content.form.subjectLabel}</span>
         <div class="bg-background-inset inset-shadow h-7.5 rounded-sm">
           <Input
@@ -306,7 +325,7 @@
         <div class="bg-background-inset inset-shadow rounded-sm">
           <textarea
             name="message"
-            class="text-foreground placeholder:text-foreground-muted focus-visible:ring-accent block min-h-30 w-full rounded-sm px-2 py-1.5 text-sm transition-shadow duration-150 ease-out outline-none focus-visible:ring-2"
+            class="text-foreground placeholder:text-foreground-muted block min-h-30 w-full rounded-sm px-2 py-1.5 text-sm transition-[box-shadow,background-color] duration-150 ease-out outline-none focus-visible:ring-1 focus-visible:ring-foreground/20"
             placeholder="Briefly describe your project, scope, and timeline."
             minlength="20"
             maxlength="3000"
@@ -316,18 +335,25 @@
         </div>
       </label>
 
-      <div class="card relative z-20 mt-1 flex flex-col items-center gap-2 overflow-hidden rounded-sm">
-        <div class="turnstile-clip relative h-15 w-full overflow-hidden">
-          <div
-            class="turnstile-layer mt-2.5 flex h-full w-full items-end justify-center brightness-90 [&>*:first-child]:w-full"
-            bind:this={turnstileContainer}
-          ></div>
-          <div class="bg-foreground dark:bg-background pointer-events-none absolute inset-0 mix-blend-color"></div>
+      {#if turnstileSiteKey.length > 0}
+        <div class="card relative z-20 mt-1 flex flex-col items-center gap-2 overflow-hidden rounded-sm">
+          <div class="turnstile-clip relative h-15 w-full overflow-hidden">
+            <div
+              class="turnstile-layer mt-2.5 flex h-full w-full items-end justify-center brightness-90 [&>*:first-child]:w-full"
+              bind:this={turnstileContainer}
+            ></div>
+            <div class="bg-foreground dark:bg-background pointer-events-none absolute inset-0 mix-blend-color"></div>
+          </div>
         </div>
-      </div>
+      {/if}
 
       <div class="mt-1 flex flex-col gap-2">
-        <Button type="submit" variant="primary" size="form" disabled={pending || turnstileToken.length === 0}>
+        <Button
+          type="submit"
+          variant="primary"
+          size="form"
+          disabled={pending || (turnstileSiteKey.length > 0 && turnstileToken.length === 0)}
+        >
           <IconSendAlt size={16} />
           <span>{pending ? content.form.sendingLabel : content.form.submitLabel}</span>
         </Button>
@@ -341,6 +367,11 @@
 </SectionBlock>
 
 <style>
+  .contact-form :global(:focus-visible) {
+    outline-color: transparent;
+    outline-offset: 0;
+  }
+
   .turnstile-clip {
     overflow: hidden;
     overflow: clip;

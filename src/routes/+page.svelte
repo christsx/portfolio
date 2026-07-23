@@ -10,7 +10,7 @@
   import ContactSection from "$lib/components/home/sections/ContactSection.svelte";
   import FooterSection from "$lib/components/home/sections/FooterSection.svelte";
   import { homepageContent } from "$lib/content/homepage-content";
-  import { buildPersonJsonLd, buildSeoMeta, buildWebsiteJsonLd, toJsonLdScript } from "$lib/seo/meta";
+  import { buildOrganizationJsonLd, buildPersonJsonLd, buildSeoMeta, buildWebsiteJsonLd, toJsonLdScript } from "$lib/seo/meta";
   import AboutSection from "$lib/components/home/sections/AboutSection.svelte";
   import Menubar from "$lib/components/layout/Menubar.svelte";
 
@@ -59,6 +59,7 @@
 
   const websiteJsonLdScript = $derived(toJsonLdScript(buildWebsiteJsonLd(page.url)));
   const personJsonLdScript = $derived(toJsonLdScript(buildPersonJsonLd(page.url)));
+  const organizationJsonLdScript = $derived(toJsonLdScript(buildOrganizationJsonLd(page.url)));
 </script>
 
 <svelte:head>
@@ -75,6 +76,8 @@
   {@html websiteJsonLdScript}
   <!-- eslint-disable-next-line svelte/no-at-html-tags -->
   {@html personJsonLdScript}
+  <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+  {@html organizationJsonLdScript}
 </svelte:head>
 
 <div class="w-full">

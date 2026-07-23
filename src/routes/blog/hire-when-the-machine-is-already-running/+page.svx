@@ -1,0 +1,29 @@
+---
+title: "Hire when the machine is already running"
+description: "Headcount is not growth. It's a bet you place after the system works."
+date: "2026-07-18"
+tags:
+  - hiring
+  - scaling
+published: true
+layout: docs
+---
+
+I said this publicly: when Algility hits $1M ARR, I hire the most cracked engineers I can find.
+
+People thought it was ego. It was a buying rule.
+
+Most teams hire to feel progress. Empty calendar. Panic. Post a role. Now payroll is the product. Work gets slower. Quality dips. Six months later you "manage someone out" of a job that never should have existed.
+
+That is not leadership. That is expensive avoidance.
+
+My rule is ugly and simple.
+
+1. Automate the repeat before you staff it.
+2. Hire only when a human is the bottleneck, not your loneliness.
+3. Fire yourself from work a system should own.
+4. Kill offers, channels, and clients that only work if you babysit them.
+
+Algility stays small on purpose until the machine is loud. Then headcount makes it sharper. Not noisier.
+
+Hiring scales a machine. It does not invent one. If you hire first, you bought a payroll problem and called it a company.

@@ -152,6 +152,41 @@ export function buildPersonJsonLd(currentUrl?: URL) {
     image: toAbsoluteUrl(homepageContent.site.defaultOgImage, currentUrl),
     jobTitle: homepageContent.site.jobTitle,
     sameAs: homepageContent.site.sameAsLinks,
+    worksFor: {
+      "@type": "Organization",
+      name: "Algility",
+      url: "https://algility.com/",
+      sameAs: ["https://www.linkedin.com/company/algility"],
+    },
+    knowsAbout: [
+      "Algility",
+      "AI-native systems",
+      "Sales automation",
+      "Growth systems",
+      "Customer acquisition",
+      "SaaS",
+    ],
+  };
+}
+
+export function buildOrganizationJsonLd(currentUrl?: URL) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Algility",
+    legalName: "Algility",
+    url: "https://algility.com/",
+    logo: toAbsoluteUrl(homepageContent.site.defaultOgImage, currentUrl),
+    description:
+      "Algility builds and deploys AI-native systems for sales, growth, and customer acquisition across SMBs and enterprises.",
+    foundingDate: "2024",
+    sameAs: ["https://www.linkedin.com/company/algility", "https://algility.com/"],
+    founder: {
+      "@type": "Person",
+      name: homepageContent.site.siteName,
+      url: toAbsoluteUrl("/", currentUrl),
+      sameAs: homepageContent.site.sameAsLinks,
+    },
   };
 }
 

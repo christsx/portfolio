@@ -6,6 +6,7 @@ export const contactData: Pick<HomepageContent, "contact"> = {
     form: {
       nameLabel: "Name",
       emailLabel: "Email",
+      phoneLabel: "Phone",
       subjectLabel: "Subject",
       messageLabel: "Message",
       submitLabel: "Send message",

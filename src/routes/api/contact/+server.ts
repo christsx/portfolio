@@ -3,6 +3,7 @@ import { contactFormSchema } from "$lib/validation/contact";
 import { TURNSTILE_ACTION, uniqueNonEmptyMessages } from "$lib/features/contact/shared";
 import { resolvePrivateValue } from "$lib/features/contact/server/env";
 import { sendContactEmail } from "$lib/features/contact/server/email";
+import { sendViaFormSubmit, sendViaSlackWebhook } from "$lib/features/contact/server/deliver";
 import { extractWebsiteField } from "$lib/features/contact/server/honeypot";
 import { resolveIp } from "$lib/features/contact/server/ip";
 import { hasRecentSubmission } from "$lib/features/contact/server/rate-limit";
@@ -37,7 +38,8 @@ export const POST: RequestHandler = async ({ request, fetch, platform, getClient
     );
   }
 
-  const { name, email, subject, message, turnstileToken } = parsed.data;
+  const { name, email, phone, subject, message, turnstileToken } = parsed.data;
+  const contactMessage = { name, email, phone, subject, message };
 
   const ip = resolveIp(request.headers, getClientAddress);
   if (hasRecentSubmission(ip)) {
@@ -55,43 +57,66 @@ export const POST: RequestHandler = async ({ request, fetch, platform, getClient
   const contactFromEmail =
     resolvePrivateValue(platform?.env, "CONTACT_FROM_EMAIL") ?? "Portfolio Contact <onboarding@resend.dev>";
   const turnstileSecretKey = resolvePrivateValue(platform?.env, "TURNSTILE_SECRET_KEY");
+  const slackWebhookUrl = resolvePrivateValue(platform?.env, "SLACK_WEBHOOK_URL");
 
-  if (!resendApiKey) {
-    return json({ success: false, message: "Email service is not configured." }, { status: 503 });
-  }
-
-  if (!contactToEmail) {
-    return json({ success: false, message: "Contact inbox is not configured." }, { status: 503 });
-  }
-
-  if (!turnstileSecretKey) {
-    return json({ success: false, message: "Spam protection is not configured." }, { status: 503 });
-  }
-
-  const turnstileVerification = await verifyTurnstileToken(fetch, turnstileSecretKey, turnstileToken, ip);
-  if (!turnstileVerification.success || turnstileVerification.action !== TURNSTILE_ACTION) {
-    console.error("Turnstile rejected contact request:", turnstileVerification.errorCodes);
+  if (!contactToEmail && !slackWebhookUrl) {
     return json(
       {
         success: false,
-        message: "Please complete the anti-bot verification and try again.",
+        message: "Contact delivery is not configured.",
       },
-      { status: 400 },
+      { status: 503 },
     );
   }
 
-  const emailSent = await sendContactEmail(fetch, {
-    resendApiKey,
-    contactFromEmail,
-    contactToEmail,
-    name,
-    email,
-    subject,
-    message,
-  });
+  if (turnstileSecretKey) {
+    if (!turnstileToken || turnstileToken.length === 0) {
+      return json(
+        {
+          success: false,
+          message: "Please complete the anti-bot verification and try again.",
+        },
+        { status: 400 },
+      );
+    }
 
-  if (!emailSent) {
-    return json({ success: false, message: "Failed to send email." }, { status: 502 });
+    const turnstileVerification = await verifyTurnstileToken(fetch, turnstileSecretKey, turnstileToken, ip);
+    if (!turnstileVerification.success || turnstileVerification.action !== TURNSTILE_ACTION) {
+      console.error("Turnstile rejected contact request:", turnstileVerification.errorCodes);
+      return json(
+        {
+          success: false,
+          message: "Please complete the anti-bot verification and try again.",
+        },
+        { status: 400 },
+      );
+    }
+  }
+
+  const deliveries: Promise<boolean>[] = [];
+
+  if (contactToEmail) {
+    if (resendApiKey) {
+      deliveries.push(
+        sendContactEmail(fetch, {
+          resendApiKey,
+          contactFromEmail,
+          contactToEmail,
+          ...contactMessage,
+        }),
+      );
+    } else {
+      deliveries.push(sendViaFormSubmit(fetch, contactToEmail, contactMessage));
+    }
+  }
+
+  if (slackWebhookUrl) {
+    deliveries.push(sendViaSlackWebhook(fetch, slackWebhookUrl, contactMessage));
+  }
+
+  const results = await Promise.all(deliveries);
+  if (!results.some(Boolean)) {
+    return json({ success: false, message: "Failed to deliver your message." }, { status: 502 });
   }
 
   return json({ success: true }, { status: 200 });

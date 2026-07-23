@@ -1,0 +1,21 @@
+---
+title: "What Algility is"
+description: "Algility in one page: AI-native growth systems, founded 2024 by Christian Garcia."
+date: "2026-07-23"
+tags:
+  - algility
+  - ai
+  - saas
+published: true
+layout: docs
+---
+
+Algility is simple.
+
+We build and deploy AI-native systems for sales, growth, and customer acquisition. SMBs and enterprises. Founded in 2024. I'm Christian Garcia, the founder.
+
+Most companies already own the tools. CRM. Inbox. Sheets. Zapier. A few AI seats. The problem is the work between those tools still depends on people copying, chasing, and remembering.
+
+Algility replaces that glue with systems. Lead comes in. Follow-up fires. Handoff doesn't die. Ops stops being a hero sport.
+
+If you want the product site, go to [algility.com](https://algility.com/). If you want the founder trail, you're already on it.

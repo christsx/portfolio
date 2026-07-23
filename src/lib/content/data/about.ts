@@ -5,7 +5,17 @@ export const aboutData: { title: string; items: AboutListItem[] } = {
   items: [
     {
       content: [
-        { type: "highlight", text: "Developer, Founder & Investor" },
+        { type: "text", text: "Founder of " },
+        { type: "link", text: "Algility", href: "https://algility.com/" },
+        {
+          type: "text",
+          text: ". Developer building AI-native systems for sales, growth, and customer acquisition.",
+        },
+      ],
+    },
+    {
+      content: [
+        { type: "highlight", text: "Developer & Founder" },
         {
           type: "text",
           text: " with 4+ years of full-stack experience, known for passion for design and strong attention to small details.",

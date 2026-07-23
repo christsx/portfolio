@@ -26,14 +26,14 @@
       ></video>
     </div>
 
-    <div class="bg-background-inset inset-shadow absolute bottom-0 left-4 z-5 size-32 translate-y-1/2 rounded-full p-1.5">
+    <div class="avatar-ring bg-background-inset inset-shadow absolute bottom-0 left-4 z-5 size-32 translate-y-1/2 rounded-full p-1.5">
       <div class="card size-full overflow-hidden rounded-full">
         <img
-          class="hero-avatar size-full object-cover"
+          class="avatar-img size-full object-cover object-center"
           src={avatarSrc}
           alt={avatarAlt}
-          width="1080"
-          height="1350"
+          width="512"
+          height="512"
           decoding="async"
           fetchpriority="high"
         />
@@ -43,7 +43,6 @@
 </SectionBlock>
 
 <style>
-  /* Fit the full horse, slight zoom, keep mane clear of the top edge */
   .hero-video {
     object-fit: contain;
     object-position: center 42%;
@@ -51,10 +50,8 @@
     transform-origin: center center;
   }
 
-  /* Face crop from full-res photo (avoids blurry upscaled bake) */
-  .hero-avatar {
-    object-position: 48% 40%;
-    transform: scale(2.75);
-    transform-origin: 48% 40%;
+  .avatar-img {
+    transform: scale(1.02);
+    transform-origin: 50% 42%;
   }
 </style>

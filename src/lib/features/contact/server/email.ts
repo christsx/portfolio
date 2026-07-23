@@ -6,6 +6,7 @@ type SendContactEmailInput = {
   contactToEmail: string;
   name: string;
   email: string;
+  phone: string;
   subject: string;
   message: string;
 };
@@ -23,6 +24,7 @@ function buildContactEmailPayload(input: SendContactEmailInput) {
   const safeSubject = input.subject.replaceAll(/\s+/g, " ").trim();
   const escapedName = escapeHtml(input.name);
   const escapedEmail = escapeHtml(input.email);
+  const escapedPhone = escapeHtml(input.phone);
   const escapedSubject = escapeHtml(safeSubject);
   const escapedMessage = escapeHtml(input.message).replaceAll("\n", "<br />");
 
@@ -31,11 +33,12 @@ function buildContactEmailPayload(input: SendContactEmailInput) {
     to: [input.contactToEmail],
     reply_to: input.email,
     subject: `[Portfolio] ${safeSubject}`,
-    text: `New message from ${input.name} <${input.email}>\n\nSubject: ${safeSubject}\n\n${input.message}`,
+    text: `New message from ${input.name} <${input.email}>\nPhone: ${input.phone}\n\nSubject: ${safeSubject}\n\n${input.message}`,
     html: `
       <div style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; line-height: 1.6; color: #111318;">
         <h2 style="margin: 0 0 12px;">New portfolio contact message</h2>
         <p style="margin: 0 0 8px;"><strong>From:</strong> ${escapedName} &lt;${escapedEmail}&gt;</p>
+        <p style="margin: 0 0 8px;"><strong>Phone:</strong> ${escapedPhone}</p>
         <p style="margin: 0 0 8px;"><strong>Subject:</strong> ${escapedSubject}</p>
         <p style="margin: 12px 0 0;"><strong>Message:</strong></p>
         <p style="margin: 6px 0 0;">${escapedMessage}</p>

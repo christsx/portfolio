@@ -117,12 +117,14 @@ export type HomepageContent = {
   testimonials: {
     title: string;
     tweetIds: string[];
+    items: TweetData[];
   };
   contact: {
     title: string;
     form: {
       nameLabel: string;
       emailLabel: string;
+      phoneLabel: string;
       subjectLabel: string;
       messageLabel: string;
       submitLabel: string;

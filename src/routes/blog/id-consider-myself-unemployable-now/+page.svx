@@ -1,0 +1,24 @@
+---
+title: "I'd consider myself unemployable now"
+description: "I didn't get worse at work. I got addicted to owning the outcome."
+date: "2026-07-22"
+tags:
+  - founding
+  - algility
+published: true
+layout: docs
+---
+
+I'd consider myself unemployable now.
+
+Not because I can't ship. Because I won't rent my hours to someone else's roadmap and call it a career.
+
+Here's what happened. Algility got loud. Partners. Calls. Flights. SF on the calendar. I kept calling it a side hustle so I could stay comfortable. Comfort was lying to me.
+
+The month I went full-time, volume hit a peak. That wasn't a coincidence. Attention compounds when you stop splitting it.
+
+A job sells you safety. A company sells you ownership. One pays you to solve their problem. The other pays you only if you solve yours.
+
+I still write code. I still take the ugly calls. Difference is simple: if it breaks, it's on me. If it prints, it's on me.
+
+I didn't become unemployable by failing at work. I became unemployable by tasting a game where the scoreboard is mine.

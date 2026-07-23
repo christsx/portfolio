@@ -16,7 +16,7 @@ function buildCspHeaderValue(): string {
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: https:",
     "font-src 'self' data:",
-    "connect-src 'self' https://challenges.cloudflare.com https://api.github.com https://api.resend.com",
+    "connect-src 'self' https://challenges.cloudflare.com https://api.github.com https://api.resend.com https://formsubmit.co https://hooks.slack.com",
     "frame-src https://challenges.cloudflare.com",
     "form-action 'self'",
   ];

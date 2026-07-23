@@ -5,16 +5,16 @@ import type { HomeSocialLink } from "../types";
 
 export const socialLinks: HomeSocialLink[] = [
   {
-    platform: "X",
-    handle: "@garciatsx",
-    href: "https://x.com/garciatsx",
-    icon: IconX,
-  },
-  {
     platform: "GitHub",
     handle: "@christsx",
     href: "https://github.com/christsx",
     icon: IconGithub,
+  },
+  {
+    platform: "X",
+    handle: "@garciatsx",
+    href: "https://x.com/garciatsx",
+    icon: IconX,
   },
   {
     platform: "LinkedIn",
