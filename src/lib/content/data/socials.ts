@@ -19,8 +19,8 @@ export const socialLinks: HomeSocialLink[] = [
   },
   {
     platform: "X",
-    handle: "@christsx",
-    href: "https://x.com/christsx",
+    handle: "@garciatsx",
+    href: "https://x.com/garciatsx",
     icon: IconX,
   },
   // {

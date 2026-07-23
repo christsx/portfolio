@@ -5,14 +5,14 @@ export const siteData: Pick<HomepageContent, "site" | "seo" | "header"> = {
     siteName: "Christian Garcia",
     siteUrl: "https://madebyhex.com",
     locale: "en_US",
-    twitterHandle: "@christsx",
+    twitterHandle: "@garciatsx",
     defaultOgImage: "/og-image.jpg",
     defaultOgImageAlt: "Christian Garcia portfolio banner",
     jobTitle: "Developer, Founder & Investor",
     sameAsLinks: [
       "https://github.com/christsx",
       "https://www.linkedin.com/in/christiangarcia0/",
-      "https://x.com/christsx",
+      "https://x.com/garciatsx",
     ],
   },
   seo: {

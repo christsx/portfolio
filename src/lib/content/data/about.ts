@@ -8,7 +8,7 @@ export const aboutData: { title: string; items: AboutListItem[] } = {
         { type: "highlight", text: "Developer, Founder & Investor" },
         {
           type: "text",
-          text: " with 5+ years of full-stack experience, known for passion for design and strong attention to small details.",
+          text: " with 4+ years of full-stack experience, known for passion for design and strong attention to small details.",
         },
       ],
     },
