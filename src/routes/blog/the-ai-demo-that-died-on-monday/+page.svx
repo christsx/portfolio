@@ -1,0 +1,16 @@
+---
+title: "The AI demo that died on Monday"
+description: "Everyone clapped at the agent. Nobody checked the inbox."
+date: "2026-07-20"
+tags:
+  - ai
+  - algility
+published: true
+layout: docs
+---
+
+We once ran a flashy AI walkthrough that made a room go quiet in a good way. Cool responses. Clean UI. Felt like the future.
+
+Monday morning the actual lead sat untouched because the handoff still depended on someone noticing a Slack ping. The demo didn't fail. The system around it did.
+
+That's what Algility is for me now. Less theater. More "does the boring path run when I'm not watching." If it needs a hero every time, it's not done.

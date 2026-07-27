@@ -1,0 +1,16 @@
+---
+title: "The week I tracked one number"
+description: "I drowned myself in dashboards until one metric made decisions easy."
+date: "2026-07-24"
+tags:
+  - growth
+  - founding
+published: true
+layout: docs
+---
+
+I used to check everything. Pipeline, impressions, stars, random Notion charts. End of the day I still didn't know if Algility was winning.
+
+So I picked one number for the month: qualified calls booked. That's it. If a task didn't help that number, I parked it.
+
+Weirdly, work got calmer. I wasn't "busy." I was either moving the number or I wasn't. Most weeks I only need that kind of honesty.

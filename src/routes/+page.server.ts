@@ -9,7 +9,7 @@ export const load: PageServerLoad = async ({ fetch, setHeaders, platform }) => {
     "cache-control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600",
   });
 
-  const recentBlogPosts = getRecentBlogPosts(3);
+  const recentBlogPosts = getRecentBlogPosts(6);
   const githubToken = platform?.env?.GITHUB_TOKEN ?? platform?.env?.PORTFOLIO_TOKEN ?? env.GITHUB_TOKEN ?? env.PORTFOLIO_TOKEN;
   const githubContributions = await getGitHubContributions(fetch, githubToken);
 

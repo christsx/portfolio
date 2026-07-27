@@ -1,0 +1,16 @@
+---
+title: "What Algility actually is"
+description: "In plain English: we build the AI systems that run sales and growth when humans get tired of glue work."
+date: "2026-07-16"
+tags:
+  - algility
+  - ai
+published: true
+layout: docs
+---
+
+Algility is the company I founded in 2024. We build AI-native systems for sales, growth, and customer acquisition.
+
+Most teams already have the tools. CRM, inbox, sheets, a couple AI subscriptions. The mess is everything between them. People become the integration layer, and that's expensive.
+
+We wire the path so a lead doesn't die in a tab and follow-up doesn't depend on memory. If you want the product site, it's [algility.com](https://algility.com/). If you want the founder version of the story, that's me.

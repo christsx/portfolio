@@ -1,0 +1,16 @@
+---
+title: "I started sending the screenshot first"
+description: "Talking about AI got me polite nods. Showing the before and after got me yeses."
+date: "2026-07-18"
+tags:
+  - growth
+  - saas
+published: true
+layout: docs
+---
+
+I used to open calls with a story about what we could build. People nodded. Then they ghosted.
+
+Now I send a screenshot or a short loom of the actual workflow before we even meet. Broken state. Fixed state. What changed. It's less impressive as a speech and way more useful as a decision.
+
+If I can't show it, I'm not ready to sell it. That rule has saved me from a lot of vague conversations that were never going to close.

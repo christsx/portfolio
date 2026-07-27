@@ -1,0 +1,16 @@
+---
+title: "My GitHub looked healthy. The business didn't."
+description: "Green squares made me feel productive while I avoided the hard parts."
+date: "2026-07-22"
+tags:
+  - building
+  - founding
+published: true
+layout: docs
+---
+
+Some nights I'd ship until 2am and screenshot the contribution graph like it meant something. The code was real. The company still needed follow-ups I didn't want to send.
+
+Building Algility made that obvious. A clean PR doesn't collect. A reply from a buyer does.
+
+I still write a lot of code. I just don't use commits as proof the business is fine. If I haven't talked to a customer that week, I'm kidding myself.
