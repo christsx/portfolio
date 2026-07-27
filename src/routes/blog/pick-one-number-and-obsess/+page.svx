@@ -1,0 +1,18 @@
+---
+title: "Pick one number and obsess"
+description: "Ten dashboards is how you avoid the metric that hurts."
+date: "2026-07-24"
+tags:
+  - growth
+  - saas
+published: true
+layout: docs
+---
+
+Founders love dashboards. Twelve charts. Zero decisions.
+
+I run Algility off one number at a time. Qualified pipeline. Cash collected. Hours saved for a client. Whatever the stage needs. Everything else is noise wearing a suit.
+
+When the number is up, keep doing the thing. When it's flat, change the thing. Don't invent a new KPI so you can feel productive.
+
+Simple scoreboards create simple behavior. Simple behavior scales.
