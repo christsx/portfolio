@@ -9,7 +9,7 @@ published: true
 layout: docs
 ---
 
-For a while I'd open Figma every time sales felt awkward. New section. New color. New "positioning." It felt like progress. It wasn't.
+For a while I'd open Framer every time sales felt awkward. New section. New color. New "positioning." It felt like progress. It wasn't.
 
 The week I forced myself to stop touching the Algility site and just take conversations, things moved. Not because the brand got better. Because people finally heard the offer out loud.
 
