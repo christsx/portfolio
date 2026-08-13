@@ -59,13 +59,16 @@ export function generateMockContributions(handle: string, amountOfDays: number):
   for (let i = 0; i < amountOfDays; i += 1) {
     const date = addDays(start, i);
     const weekday = date.getDay();
-    const weekendFactor = weekday === 0 || weekday === 6 ? 0.65 : 1;
-    const wave = (Math.sin((i + (seed % 17)) / 13) + 1) * 0.5;
+    const weekendFactor = weekday === 0 || weekday === 6 ? 0.82 : 1;
+    const wave = (Math.sin((i + (seed % 17)) / 18) + 1) * 0.5;
     const noise = seededNoise(seed + i * 37 + date.getMonth() * 91);
 
-    let count = Math.round((wave * 7 + noise * 6) * weekendFactor);
-    if (noise < 0.38) {
+    // Almost maxed: most days hit the top green (count > 9). Rare rest days.
+    let count = Math.round((11 + wave * 8 + noise * 6) * weekendFactor);
+    if (noise < 0.06) {
       count = 0;
+    } else if (noise < 0.14) {
+      count = Math.max(4, Math.round(count * 0.45));
     }
 
     values.push({
@@ -220,7 +223,9 @@ export class ContributionGraphState {
 
     this.normalizedDays = $derived.by(() => Math.max(7, this.days));
     this.inputData = $derived.by(() =>
-      this.data && this.data.length > 0 ? this.data : generateEmptyContributions(this.normalizedDays),
+      this.data && this.data.length > 0
+        ? this.data
+        : generateMockContributions(this.username, this.normalizedDays),
     );
     this.dayCells = $derived.by(() => buildContributionDays(this.inputData, this.normalizedDays, this.text));
     this.weeks = $derived.by(() => groupByWeek(this.dayCells));

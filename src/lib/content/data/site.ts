@@ -13,9 +13,10 @@ export const siteData: Pick<HomepageContent, "site" | "seo" | "header"> = {
     jobTitle: "Founder of Algility",
     sameAsLinks: [
       "https://github.com/christsx",
+      "https://cursor.com/@christiangarcia",
       "https://www.linkedin.com/in/christiangarcia0/",
-      "https://x.com/garciatsx",
       "https://algility.com/",
+
       "https://www.linkedin.com/company/algility",
     ],
   },

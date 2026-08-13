@@ -68,7 +68,7 @@ const takumiFontLoaders = [
   },
 ];
 
-const logoDataUri = `data:image/svg+xml,${encodeURIComponent(brandLogoRaw.replaceAll("currentColor", "#ff6900"))}`;
+const logoDataUri = `data:image/svg+xml,${encodeURIComponent(brandLogoRaw.replaceAll("currentColor", "#F54E00"))}`;
 const LOGO_DISPLAY_HEIGHT = 78;
 
 const extractLogoAspectRatio = (svgMarkup: string) => {

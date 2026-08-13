@@ -41,8 +41,12 @@ html {
   --white-fixed: oklch(1 0 0);
   --foreground: oklch(0.1881 0.006 var(--base-hue));
   --foreground-muted: oklch(0.5493 0.0081 var(--base-hue));
-  --accent: oklch(0.6996 0.201959 44.4414);
-  --accent-secondary: oklch(0.5096 0.151959 44.4414);
+  /* Brand orange scale: less (#6E2B0B) → mid → max (#F54E00) */
+  --accent-max: #f54e00;
+  --accent-mid: #c43e00;
+  --accent-less: #6e2b0b;
+  --accent: var(--accent-max);
+  --accent-secondary: var(--accent-less);
   --border: oklch(0 0.0013 var(--base-hue) / 0.08);
   --highlight: oklch(0 0.0013 var(--base-hue));
 }
@@ -53,8 +57,11 @@ html {
   --background-muted: oklch(0.3017 0.0073 var(--base-hue));
   --foreground: oklch(0.9674 0.0013 var(--base-hue));
   --foreground-muted: oklch(0.669 0.0107 var(--base-hue));
-  --accent: oklch(0.6996 0.181959 44.4414);
-  --accent-secondary: oklch(0.5096 0.131959 44.4414);
+  --accent-max: #f54e00;
+  --accent-mid: #e84800;
+  --accent-less: #6e2b0b;
+  --accent: var(--accent-max);
+  --accent-secondary: var(--accent-less);
   --border: oklch(1 0.013 var(--base-hue) / 0.05);
   --highlight: oklch(1 0.013 var(--base-hue));
 }
@@ -71,6 +78,9 @@ html {
   --color-fixed-light: var(--fixed-light);
   --color-accent: var(--accent);
   --color-accent-secondary: var(--accent-secondary);
+  --color-accent-max: var(--accent-max);
+  --color-accent-mid: var(--accent-mid);
+  --color-accent-less: var(--accent-less);
   --color-border: var(--border);
 
   --radius-xs: calc(var(--radius-base) * 1);
@@ -158,7 +168,7 @@ html {
     box-shadow 150ms ease-out;
   background:
     radial-gradient(ellipse at -20px top, rgb(255 255 255 / 0.22), rgb(255 255 255 / 0)),
-    linear-gradient(180deg, var(--accent), var(--accent-secondary));
+    linear-gradient(180deg, var(--accent-max), var(--accent-mid) 48%, var(--accent-less));
   box-shadow:
     inset 0 1px 0 rgb(255 255 255 / 0.22),
     var(--shadow-md);
@@ -191,7 +201,7 @@ html {
 
   @media (hover: hover) {
     &:hover {
-      filter: brightness(1.08) saturate(1.04);
+      filter: brightness(1.06) saturate(1.02);
     }
   }
 }
@@ -207,8 +217,9 @@ html {
     radial-gradient(ellipse at -20px top, rgb(255 255 255 / 0.22), rgb(255 255 255 / 0)),
     linear-gradient(
       180deg,
-      color-mix(in oklab, var(--accent) 80%, var(--background) 20%),
-      color-mix(in oklab, var(--accent-secondary) 80%, var(--background) 20%)
+      color-mix(in oklab, var(--accent-max) 88%, var(--background) 12%),
+      color-mix(in oklab, var(--accent-mid) 85%, var(--background) 15%) 48%,
+      color-mix(in oklab, var(--accent-less) 90%, var(--background) 10%)
     );
   box-shadow:
     inset 0 1px 0 rgb(255 255 255 / 0.22),

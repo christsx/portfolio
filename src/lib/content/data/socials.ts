@@ -1,6 +1,6 @@
 import IconGithub from "carbon-icons-svelte/lib/LogoGithub.svelte";
 import IconLinkedin from "carbon-icons-svelte/lib/LogoLinkedin.svelte";
-import IconX from "carbon-icons-svelte/lib/LogoX.svelte";
+import IconCursor from "$lib/components/icons/IconCursor.svelte";
 import type { HomeSocialLink } from "../types";
 
 export const socialLinks: HomeSocialLink[] = [
@@ -11,10 +11,10 @@ export const socialLinks: HomeSocialLink[] = [
     icon: IconGithub,
   },
   {
-    platform: "X",
-    handle: "@garciatsx",
-    href: "https://x.com/garciatsx",
-    icon: IconX,
+    platform: "Cursor",
+    handle: "@christiangarcia",
+    href: "https://cursor.com/@christiangarcia",
+    icon: IconCursor,
   },
   {
     platform: "LinkedIn",

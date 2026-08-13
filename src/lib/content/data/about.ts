@@ -9,7 +9,19 @@ export const aboutData: { title: string; items: AboutListItem[] } = {
         { type: "link", text: "Algility", href: "https://algility.com/" },
         {
           type: "text",
-          text: ". Developer building AI-native systems for sales, growth, and customer acquisition.",
+          text: ". Developer building AI-native systems for sales, growth, and customer acquisition. On Cursor as ",
+        },
+        { type: "link", text: "@christiangarcia", href: "https://cursor.com/@christiangarcia" },
+        { type: "text", text: "." },
+      ],
+    },
+    {
+      content: [
+        { type: "text", text: "Built " },
+        { type: "highlight", text: "100+ apps and websites" },
+        {
+          type: "text",
+          text: " for creators and businesses.",
         },
       ],
     },
