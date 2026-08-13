@@ -10,7 +10,7 @@ export const siteData: Pick<HomepageContent, "site" | "seo" | "header"> = {
     twitterHandle: "@garciatsx",
     defaultOgImage: "/og-image.jpg",
     defaultOgImageAlt: "Christian Garcia, founder of Algility",
-    jobTitle: "Founder of Algility",
+    jobTitle: "Full Stack Developer",
     sameAsLinks: [
       "https://github.com/christsx",
       "https://cursor.com/@christiangarcia",

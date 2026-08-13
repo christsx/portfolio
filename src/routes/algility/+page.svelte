@@ -79,7 +79,7 @@
     </p>
 
     <p>
-      Founder:
+      Full Stack Developer:
       <a class="text-foreground underline underline-offset-2" href="/">Christian Garcia</a>
       ·
       <a

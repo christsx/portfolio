@@ -1,0 +1,131 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage{fontspec}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern} % serif, styl Computer Modern (Latin Modern)
+\setmainfont{Times New Roman}
+\usepackage[margin=1.6cm]{geometry}
+\usepackage{hyperref}
+\usepackage{microtype}
+\usepackage[normalem]{ulem}
+\hypersetup{
+  colorlinks=true,
+  urlcolor=black,
+  linkcolor=black
+}
+\let\oldhref\href
+\renewcommand{\href}[2]{\oldhref{#1}{\uline{#2}}}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{microtype}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlist[itemize]{leftmargin=1.5em,itemsep=1pt,topsep=2pt,parsep=0pt}
+
+% Section style matching Sachi Goyal: small caps, rule below
+\titleformat{\section}
+  {\large\scshape\raggedright}{}{0em}{}[\titlerule]
+\titlespacing{\section}{0pt}{6pt}{4pt}
+
+\begin{document}
+
+% ── Header ──────────────────────────────────────────────────────────────
+\begin{center}
+  {\huge \textbf{Marek Jóźwiak}}\\[4pt]
+  {\large Creative Frontend Developer}\\[8pt]
+  \small
+  \href{mailto:hexthecoder@gmail.com}{hexthecoder@gmail.com}
+  \quad|\quad
+  \href{https://github.com/66HEX}{github.com/66HEX}
+  \quad|\quad
+  \href{https://www.madebyhex.com/}{madebyhex.com}
+  \quad|\quad
+  \href{https://www.linkedin.com/in/marek-j\%C3\%B3\%C5\%BAwiak-29958132a/}{linkedin.com/in/marek-jozwiak}
+\end{center}
+\vspace{6pt}
+
+% ── Education ────────────────────────────────────────────────────────────
+\section{Education}
+
+\textbf{Zespół Szkół nr 9 im. Romualda Traugutta, Koszalin} \hfill Sep 2014 -- May 2018\\
+\textit{Electronics Technician}
+
+% ── Experience ───────────────────────────────────────────────────────────
+\section{Experience}
+
+\textbf{WebGPU Shader Developer} $|$ \textit{WebGPU, WGSL, Real-Time Graphics} \hfill May 2026 -- Present\\
+\textit{Moda \textbar{} Contract \textbar{} Remote (New York, United States)}
+\begin{itemize}
+  \item Develop real-time shader effects for Moda.app's browser-based AI design canvas.
+  \item Build GPU-driven visuals that enhance editable presentations, social assets, and branded design workflows.
+  \item Shape the product's creative motion layer through production-ready WebGPU and WGSL shader work.
+\end{itemize}
+
+\textbf{Creative Frontend Developer} $|$ \textit{Next.js, React, Three.js, GLSL, Tailwind CSS} \hfill Sep 2025 -- Dec 2025\\
+\textit{shadcnblocks.com \textbar{} Contract \textbar{} Remote (Brisbane, Australia)}
+\begin{itemize}
+  \item Built 20 immersive, reusable full-screen React hero blocks for production use.
+  \item Combined React Three Fiber, Three.js, and raw GLSL shaders to deliver real-time depth and motion.
+  \item Delivered modular components compatible with shadcn/ui and Tailwind CSS.
+\end{itemize}
+
+\textbf{Partner} $|$ \textit{React, React Three Fiber, GLSL, Tailwind CSS} \hfill Aug 2025 -- Dec 2025\\
+\textit{21st.dev \textbar{} Contract \textbar{} Remote (Dover, Delaware, United States)}
+\begin{itemize}
+  \item Collaborated on reusable, production-ready React components for a community-driven UI registry.
+  \item Designed component building blocks used by the MCP-powered generation workflow.
+  \item Delivered modular components compatible with shadcn/ui and Tailwind CSS.
+\end{itemize}
+
+% ── Projects ─────────────────────────────────────────────────────────────
+\section{Projects}
+
+\textbf{Frame (Fast FFmpeg GUI)} $|$ \textit{GPUI-CE, Rust} \hfill\\
+\href{https://github.com/66HEX/frame}{github.com/66HEX/frame} \textbar{} \href{https://www.framegui.app/}{framegui.app}
+\begin{itemize}
+  \item Built a native media conversion app (Rust, GPUI-CE) with concurrent queue management.
+  \item Implemented codec/container workflows, hardware-accelerated encoding, and preset management.
+  \item Grew the project to 1700+ stars on GitHub.
+\end{itemize}
+
+\textbf{Motion Core} $|$ \textit{Svelte 5, OGL, GSAP, Rust} \hfill\\
+\href{https://github.com/Motion-Core/motion-core}{github.com/Motion-Core/motion-core} \textbar{} \href{https://motion-core.dev/}{motion-core.dev}
+\begin{itemize}
+  \item Built a curated Svelte 5 motion component ecosystem for experimental UI.
+  \item Worked on production-ready animation components powered by OGL and GSAP.
+  \item Supported a CLI-driven copy-paste component architecture for direct code ownership.
+\end{itemize}
+
+\textbf{Motion GPU} $|$ \textit{TypeScript, WebGPU, WGSL, Svelte 5, React, Vue} \hfill\\
+\href{https://github.com/motion-core/motion-gpu}{github.com/motion-core/motion-gpu} \textbar{} \href{https://www.motion-gpu.dev/}{motion-gpu.dev}
+\begin{itemize}
+  \item Built a WebGPU framework for fullscreen shader pipelines with strict shader contracts and immutable material definitions.
+  \item Delivered framework adapters for Svelte, React, and Vue on top of a framework-agnostic core.
+  \item Implemented deterministic scheduling with dependency-aware \texttt{useFrame} tasks, multi-pass rendering, and GPU compute passes.
+\end{itemize}
+
+% ── Skills ───────────────────────────────────────────────────────────────
+\section{Skills}
+
+\textbf{Languages:} JavaScript, TypeScript, Rust, GLSL, WGSL\\
+\textbf{Frameworks:} Svelte, SvelteKit, React, Next.js\\
+\textbf{3D and Motion:} Three.js, React Three Fiber, Threlte, GSAP\\
+\textbf{Desktop:} Tauri, GPUI\\
+\textbf{Cloud and Tools:} Cloudflare, AWS, Git, Figma, Tailwind CSS
+
+% ── Certifications ────────────────────────────────────────────────────────
+\section{Certifications}
+
+\textbf{Programming S7-1200 Controllers in the TIA Portal Environment} \hfill Issued Jun 2017\\
+Siemens
+
+\textbf{AutoCAD Electrical} \hfill Issued Jun 2017\\
+PROCAD SA
+
+\textbf{AutoCAD Level I} \hfill Issued Jun 2017\\
+PROCAD SA
+
+\end{document}

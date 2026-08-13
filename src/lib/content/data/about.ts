@@ -5,11 +5,11 @@ export const aboutData: { title: string; items: AboutListItem[] } = {
   items: [
     {
       content: [
-        { type: "text", text: "Founder of " },
+        { type: "text", text: "Full Stack Developer at " },
         { type: "link", text: "Algility", href: "https://algility.com/" },
         {
           type: "text",
-          text: ". Developer building AI-native systems for sales, growth, and customer acquisition. On Cursor as ",
+          text: ". Building AI-native systems for sales, growth, and customer acquisition. On Cursor as ",
         },
         { type: "link", text: "@christiangarcia", href: "https://cursor.com/@christiangarcia" },
         { type: "text", text: "." },
@@ -27,10 +27,10 @@ export const aboutData: { title: string; items: AboutListItem[] } = {
     },
     {
       content: [
-        { type: "highlight", text: "Developer & Founder" },
+        { type: "highlight", text: "Full Stack Developer" },
         {
           type: "text",
-          text: " with 4+ years of full-stack experience, known for passion for design and strong attention to small details.",
+          text: " with 4+ years of experience, known for passion for design and strong attention to small details.",
         },
       ],
     },
