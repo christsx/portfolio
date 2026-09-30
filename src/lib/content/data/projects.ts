@@ -66,6 +66,12 @@ export const projectsData: { title: string; ctaLabel: string; githubCtaLabel: st
       href: "https://quevo.ai/",
     },
     {
+      title: "Corditop Consulting",
+      description: "High-rise cleaning and maintenance company serving Africa and Asia.",
+      image: "/images/works/corditop.webp",
+      href: "https://corditopconsulting.com/",
+    },
+    {
       title: "Oruco",
       description: "Website for an AI operating system agency.",
       image: "/images/works/oruco.webp",
