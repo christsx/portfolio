@@ -6,6 +6,12 @@ export const projectsData: { title: string; ctaLabel: string; githubCtaLabel: st
   githubCtaLabel: "GitHub",
   items: [
     {
+      title: "Get Healthy Kidz",
+      description: "Shopify storefront for hands-on health education kits for kids.",
+      image: "/images/works/healthy-kidz.jpg",
+      href: "https://shop.gethealthykidz.com/",
+    },
+    {
       title: "Attoray",
       description: "Defense startup for GPS-denied intercept guidance.",
       image: "/images/works/attoray.webp",

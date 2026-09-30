@@ -8,18 +8,11 @@ export const GET: RequestHandler = async ({ fetch, setHeaders, platform }) => {
     "cache-control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600",
   });
 
-  const githubToken = platform?.env?.GITHUB_TOKEN ?? platform?.env?.PORTFOLIO_TOKEN ?? env.GITHUB_TOKEN ?? env.PORTFOLIO_TOKEN;
-  if (!githubToken) {
-    return json({
-      apiConfigured: false,
-      githubContributions: null,
-      githubUsername: GITHUB_USERNAME,
-    });
-  }
-
+  const githubToken =
+    platform?.env?.GITHUB_TOKEN ?? platform?.env?.PORTFOLIO_TOKEN ?? env.GITHUB_TOKEN ?? env.PORTFOLIO_TOKEN;
   const githubContributions = await getGitHubContributions(fetch, githubToken);
   return json({
-    apiConfigured: true,
+    apiConfigured: Boolean(githubToken),
     githubContributions,
     githubUsername: GITHUB_USERNAME,
   });

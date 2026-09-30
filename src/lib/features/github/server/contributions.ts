@@ -46,7 +46,7 @@ const GITHUB_GRAPHQL_URL = "https://api.github.com/graphql";
 const GRAPH_DAYS = 365;
 const GITHUB_TIMEOUT_MS = 8000;
 const GITHUB_CACHE_TTL_MS = 5 * 60 * 1000;
-const IN_FLIGHT_STALE_MS = 10 * 1000;
+const IN_FLIGHT_STALE_MS = 20 * 1000;
 
 // Prefer viewer so private contributions are included for the authenticated account.
 const viewerContributionsQuery = `
@@ -226,7 +226,42 @@ async function requestPublicUserContributions(
   return calendarToContributions(payload.data?.user?.contributionsCollection?.contributionCalendar);
 }
 
-function startRefresh(fetchFn: typeof fetch, token: string): Promise<GitHubContribution[] | null> {
+// GitHub's public calendar remains available when a configured token expires.
+export function parsePublicContributions(html: string): GitHubContribution[] | null {
+  const counts = new Map<string, number>();
+  for (const match of html.matchAll(/<tool-tip\b([^>]*)>([^<]*)<\/tool-tip>/g)) {
+    const id = match[1].match(/\bfor="([^"]+)"/)?.[1];
+    const count = match[2].trim().match(/^(No|[\d,]+) contributions? on /)?.[1];
+    if (id && count) counts.set(id, count === "No" ? 0 : Number(count.replaceAll(",", "")));
+  }
+
+  const days: GitHubContribution[] = [];
+  for (const match of html.matchAll(/<td\b([^>]*)>/g)) {
+    const attributes = match[1];
+    const date = attributes.match(/\bdata-date="(\d{4}-\d{2}-\d{2})"/)?.[1];
+    const id = attributes.match(/\bid="([^"]+)"/)?.[1];
+    if (!date || !id) continue;
+    const count = counts.get(id);
+    // Reject incomplete markup instead of presenting missing values as zero.
+    if (count === undefined || !Number.isSafeInteger(count)) return null;
+    days.push({ date, count });
+  }
+  return days.length >= GRAPH_DAYS ? days.sort((a, b) => a.date.localeCompare(b.date)) : null;
+}
+
+async function requestPublicCalendar(fetchFn: typeof fetch): Promise<GitHubContribution[] | null> {
+  try {
+    const response = await fetchFn(`https://github.com/users/${encodeURIComponent(GITHUB_USERNAME)}/contributions`, {
+      headers: { "User-Agent": "portfolio", "Accept-Language": "en-US" },
+      signal: AbortSignal.timeout(GITHUB_TIMEOUT_MS),
+    });
+    return response.ok ? parsePublicContributions(await response.text()) : null;
+  } catch {
+    return null;
+  }
+}
+
+function startRefresh(fetchFn: typeof fetch, token: string | undefined): Promise<GitHubContribution[] | null> {
   if (inFlight && Date.now() - inFlightStartedAt < IN_FLIGHT_STALE_MS) {
     return inFlight;
   }
@@ -238,20 +273,23 @@ function startRefresh(fetchFn: typeof fetch, token: string): Promise<GitHubContr
 
   inFlightStartedAt = Date.now();
 
+  let timeoutId: ReturnType<typeof setTimeout>;
   inFlight = Promise.race([
-    requestGitHubContributions(fetchFn, token),
+    (async () =>
+      (token ? await requestGitHubContributions(fetchFn, token) : null) ?? (await requestPublicCalendar(fetchFn)))(),
     new Promise<GitHubContribution[] | null>((resolve) => {
-      setTimeout(() => resolve(null), GITHUB_TIMEOUT_MS + 400);
+      timeoutId = setTimeout(() => resolve(null), GITHUB_TIMEOUT_MS * 2 + 400);
     }),
   ])
     .then((data) => {
       cache = {
-        data,
-        expiresAt: Date.now() + GITHUB_CACHE_TTL_MS,
+        data: data ?? cache?.data ?? null,
+        expiresAt: Date.now() + (data ? GITHUB_CACHE_TTL_MS : 30_000),
       };
-      return data;
+      return cache.data;
     })
     .finally(() => {
+      clearTimeout(timeoutId);
       inFlight = null;
       inFlightStartedAt = 0;
     });
@@ -264,7 +302,7 @@ export function getCachedGitHubContributions(): GitHubContribution[] | null {
 }
 
 export function warmGitHubContributions(fetchFn: typeof fetch, token: string | undefined): void {
-  if (!token || hasFreshCache()) {
+  if (hasFreshCache()) {
     return;
   }
 
@@ -275,10 +313,6 @@ export async function getGitHubContributions(
   fetchFn: typeof fetch,
   token: string | undefined,
 ): Promise<GitHubContribution[] | null> {
-  if (!token) {
-    return null;
-  }
-
   if (hasFreshCache()) {
     return cache?.data ?? null;
   }

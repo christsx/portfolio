@@ -10,7 +10,13 @@
   import ContactSection from "$lib/components/home/sections/ContactSection.svelte";
   import FooterSection from "$lib/components/home/sections/FooterSection.svelte";
   import { homepageContent } from "$lib/content/homepage-content";
-  import { buildOrganizationJsonLd, buildPersonJsonLd, buildSeoMeta, buildWebsiteJsonLd, toJsonLdScript } from "$lib/seo/meta";
+  import {
+    buildOrganizationJsonLd,
+    buildPersonJsonLd,
+    buildSeoMeta,
+    buildWebsiteJsonLd,
+    toJsonLdScript,
+  } from "$lib/seo/meta";
   import AboutSection from "$lib/components/home/sections/AboutSection.svelte";
   import Menubar from "$lib/components/layout/Menubar.svelte";
 
@@ -32,7 +38,6 @@
     }[];
     githubUsername: string;
     githubContributions: GitHubContribution[] | null;
-    githubApiConfigured: boolean;
     tweets: TweetData[];
   };
 
@@ -40,7 +45,6 @@
 
   const githubUsername = $derived(data.githubUsername);
   const githubContributions = $derived(data.githubContributions ?? undefined);
-  const githubApiConfigured = $derived(data.githubApiConfigured);
   const recentBlogPosts = $derived(data.recentBlogPosts);
   const tweets = $derived(data.tweets);
 
@@ -100,8 +104,6 @@
   <GitHubActivityCard
     username={githubUsername}
     contributions={githubContributions}
-    apiConfigured={githubApiConfigured}
-    missingTokenMessage={homepageContent.githubCard.missingTokenMessage}
     graphText={homepageContent.githubCard.graphText}
   />
   <Separator class="my-4" />

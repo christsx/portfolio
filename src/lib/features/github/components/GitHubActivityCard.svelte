@@ -29,12 +29,10 @@
   type Props = {
     username: string;
     contributions?: GitHubContribution[];
-    apiConfigured: boolean;
-    missingTokenMessage: string;
     graphText: HomepageContent["githubCard"]["graphText"];
   };
 
-  let { username, contributions = undefined, apiConfigured, missingTokenMessage, graphText }: Props = $props();
+  let { username, contributions = undefined, graphText }: Props = $props();
 
   let clientContributions = $state<GitHubContribution[] | undefined>(getCachedClientContributions());
   const contributionData = $derived(contributions && contributions.length > 0 ? contributions : clientContributions);
@@ -46,7 +44,7 @@
   });
 
   onMount(() => {
-    if (!apiConfigured || (contributionData && contributionData.length > 0)) {
+    if (contributionData && contributionData.length > 0) {
       return;
     }
 
@@ -54,7 +52,7 @@
 
     const loadContributions = async () => {
       const abortController = new AbortController();
-      const timeoutId = setTimeout(() => abortController.abort(), 2500);
+      const timeoutId = setTimeout(() => abortController.abort(), 18000);
 
       try {
         const response = await fetch("/api/github-contributions", { signal: abortController.signal });
@@ -89,10 +87,12 @@
 
 <SectionBlock>
   <div class="inset-shadow bg-background-inset rounded-lg p-1.5">
-    <GitHubContributionGraph {username} data={contributionData} text={graphText} />
-    {#if !apiConfigured}
-      <p class="text-foreground-muted mt-2 text-base">
-        {missingTokenMessage}
+    {#if contributionData?.length}
+      <GitHubContributionGraph {username} data={contributionData} text={graphText} />
+    {:else}
+      <p class="text-foreground-muted p-4 text-sm" role="status">
+        GitHub activity is temporarily unavailable.
+        <a class="underline" href={`https://github.com/${username}`}>View activity on GitHub</a>
       </p>
     {/if}
   </div>
