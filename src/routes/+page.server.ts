@@ -1,3 +1,4 @@
+import { getGitHubActivityOverview } from "$lib/features/github/server/activity-overview";
 import { env } from "$env/dynamic/private";
 import { getRecentBlogPosts } from "$lib/features/blog/server/posts";
 import { GITHUB_USERNAME, getGitHubContributions } from "$lib/features/github/server/contributions";
@@ -10,14 +11,19 @@ export const load: PageServerLoad = async ({ fetch, setHeaders, platform }) => {
   });
 
   const recentBlogPosts = getRecentBlogPosts(6);
-  const githubToken = platform?.env?.GITHUB_TOKEN ?? platform?.env?.PORTFOLIO_TOKEN ?? env.GITHUB_TOKEN ?? env.PORTFOLIO_TOKEN;
-  const githubContributions = await getGitHubContributions(fetch, githubToken);
+  const githubToken =
+    platform?.env?.GITHUB_TOKEN ?? platform?.env?.PORTFOLIO_TOKEN ?? env.GITHUB_TOKEN ?? env.PORTFOLIO_TOKEN;
+  const [githubContributions, githubActivityOverview] = await Promise.all([
+    getGitHubContributions(fetch, githubToken),
+    getGitHubActivityOverview(fetch),
+  ]);
 
   return {
     recentBlogPosts,
     githubUsername: GITHUB_USERNAME,
     githubApiConfigured: Boolean(githubToken),
     githubContributions,
+    githubActivityOverview,
     tweets: testimonialTweets,
   };
 };

@@ -25,3 +25,10 @@ export type GraphText = {
   contributionPluralLabel: string;
   tooltipOnLabel: string;
 };
+
+export type GitHubActivityOverview = {
+  commits: number;
+  pullRequests: number;
+  issues: number;
+  codeReview: number;
+};

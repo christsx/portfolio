@@ -20,6 +20,8 @@
   import AboutSection from "$lib/components/home/sections/AboutSection.svelte";
   import Menubar from "$lib/components/layout/Menubar.svelte";
 
+  import type { GitHubActivityOverview } from "$lib/features/github/types";
+
   type GitHubContribution = {
     date: string;
     count: number;
@@ -38,6 +40,7 @@
     }[];
     githubUsername: string;
     githubContributions: GitHubContribution[] | null;
+    githubActivityOverview: GitHubActivityOverview | null;
     tweets: TweetData[];
   };
 
@@ -104,6 +107,7 @@
   <GitHubActivityCard
     username={githubUsername}
     contributions={githubContributions}
+    overview={data.githubActivityOverview}
     graphText={homepageContent.githubCard.graphText}
   />
   <Separator class="my-4" />
