@@ -1,4 +1,7 @@
 <script lang="ts">
+  import IconGithub from "carbon-icons-svelte/lib/LogoGithub.svelte";
+  import IconLinkButton from "$lib/components/layout/IconLinkButton.svelte";
+  import Tooltip from "$lib/components/ui/Tooltip.svelte";
   import type { GitHubActivityOverview } from "../types";
 
   let { data, username }: { data: GitHubActivityOverview | null; username: string } = $props();
@@ -22,9 +25,11 @@
 <div class="bg-background card mt-1.5 rounded-md p-4">
   <div class="flex items-center justify-between gap-3">
     <h2 class="text-sm font-medium">Activity overview</h2>
-    <a class="text-foreground-muted text-xs underline-offset-4 hover:underline" href={`https://github.com/${username}`}
-      >View on GitHub</a
-    >
+    <Tooltip content="View on GitHub">
+      <IconLinkButton href={`https://github.com/${username}`} ariaLabel="View activity on GitHub">
+        <IconGithub size={16} />
+      </IconLinkButton>
+    </Tooltip>
   </div>
   {#if data}
     <p class="text-foreground-muted mt-1 text-xs">Contribution breakdown · Last year</p>
