@@ -55,7 +55,7 @@
   });
 </script>
 
-<h1
+<h2
   {id}
   {...restProps}
   class={cn(
@@ -101,4 +101,4 @@
       </div>
     {/if}
   </span>
-</h1>
+</h2>

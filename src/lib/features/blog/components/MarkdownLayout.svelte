@@ -30,6 +30,7 @@
 
 <script lang="ts">
   import { page } from "$app/state";
+  import { resolve } from "$app/paths";
   import IconArrowLeft from "carbon-icons-svelte/lib/ArrowLeft.svelte";
   import FooterSection from "$lib/components/home/sections/FooterSection.svelte";
   import { homepageContent } from "$lib/content/homepage-content";
@@ -61,8 +62,8 @@
 
   const articleSeo = $derived(
     buildSeoMeta({
-      title: `${title} | Blog`,
-      description: description || "Technical notes and workflow insights on frontend development and SvelteKit.",
+      title: `${title} | Christian Garcia`,
+      description: description || "Company guides and practical notes from Christian Garcia, founder of Algility.",
       path: page.url.pathname,
       currentUrl: page.url,
       image: ogImagePath,
@@ -70,7 +71,7 @@
       publishedTime: date,
       modifiedTime: date,
       tags,
-      keywords: ["blog", "design engineering", "front-end", "sveltekit", ...tags],
+      keywords: ["Christian Garcia", ...tags],
     }),
   );
 
@@ -78,7 +79,7 @@
     toJsonLdScript(
       buildBlogPostingJsonLd({
         title,
-        description: description || "Technical notes and workflow insights on frontend development and SvelteKit.",
+        description: description || "Company guides and practical notes from Christian Garcia, founder of Algility.",
         canonicalUrl: articleSeo.canonicalUrl,
         imageUrl: articleSeo.ogImageUrl,
         publishedTime: date,
@@ -109,7 +110,7 @@
 <div class="w-full">
   <div class="p-4">
     <a
-      href="/"
+      href={resolve("/")}
       class="text-foreground-muted hover:text-foreground inline-flex items-center gap-1.5 text-xs leading-none font-medium duration-150 ease-out"
       aria-label="Back to home"
     >
@@ -118,6 +119,8 @@
     </a>
     <Separator class="my-4" />
     <div class="text-foreground-muted flex flex-wrap items-center gap-2 pt-4 text-xs">
+      <a href={resolve("/")} class="hover:text-foreground">By Christian Garcia</a>
+      <span aria-hidden="true">·</span>
       {#if date}
         <time datetime={date}>{date}</time>
       {/if}

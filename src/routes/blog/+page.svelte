@@ -5,6 +5,7 @@
   import { homepageContent } from "$lib/content/homepage-content";
   import { buildSeoMeta } from "$lib/seo/meta";
   import { page } from "$app/state";
+  import { resolve } from "$app/paths";
 
   type Props = {
     data: {
@@ -24,7 +25,7 @@
   const seo = $derived(
     buildSeoMeta({
       title: "Blog | Christian Garcia",
-      description: "Short notes on building Algility, hiring, partnerships, and shipping systems.",
+      description: "Algility company guides, official links, and practical notes from founder Christian Garcia.",
       path: "/blog",
       currentUrl: page.url,
     }),
@@ -45,7 +46,7 @@
 
 <div class="w-full p-4">
   <a
-    href="/"
+    href={resolve("/")}
     class="text-foreground-muted hover:text-foreground inline-flex items-center gap-1.5 text-xs leading-none font-medium duration-150 ease-out"
     aria-label="Back to home"
   >

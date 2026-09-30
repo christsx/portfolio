@@ -3,9 +3,7 @@ import type { HomepageContent } from "../types";
 export const siteData: Pick<HomepageContent, "site" | "seo" | "header"> = {
   site: {
     siteName: "Christian Garcia",
-    // Portfolio canonical host. Sitemap/robots prefer the live request origin.
-    // Set PUBLIC_SITE_URL in Vercel when you attach a custom domain.
-    siteUrl: "https://localhost",
+    siteUrl: "https://www.christiangarcia.xyz",
     locale: "en_US",
     twitterHandle: "@garciatsx",
     defaultOgImage: "/og-image.jpg",

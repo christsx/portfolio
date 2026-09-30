@@ -158,14 +158,7 @@ export function buildPersonJsonLd(currentUrl?: URL) {
       url: "https://algility.com/",
       sameAs: ["https://www.linkedin.com/company/algility"],
     },
-    knowsAbout: [
-      "Algility",
-      "AI-native systems",
-      "Sales automation",
-      "Growth systems",
-      "Customer acquisition",
-      "SaaS",
-    ],
+    knowsAbout: ["Algility", "AI-native systems", "Sales automation", "Growth systems", "Customer acquisition", "SaaS"],
   };
 }
 
@@ -176,11 +169,17 @@ export function buildOrganizationJsonLd(currentUrl?: URL) {
     name: "Algility",
     legalName: "Algility",
     url: "https://algility.com/",
-    logo: toAbsoluteUrl(homepageContent.site.defaultOgImage, currentUrl),
     description:
       "Algility builds and deploys AI-native systems for sales, growth, and customer acquisition across SMBs and enterprises.",
     foundingDate: "2024",
-    sameAs: ["https://www.linkedin.com/company/algility", "https://algility.com/"],
+    sameAs: [
+      "https://www.linkedin.com/company/algility",
+      "https://www.instagram.com/algilityai/",
+      "https://algility.us/",
+      "https://clutch.co/profile/algility",
+      "https://www.goodfirms.co/company/algility",
+      "https://themanifest.com/company/algility",
+    ],
     founder: {
       "@type": "Person",
       name: homepageContent.site.siteName,
@@ -206,6 +205,7 @@ export function buildBlogPostingJsonLd(input: BlogPostingJsonLdInput) {
     author: {
       "@type": "Person",
       name: homepageContent.site.siteName,
+      url: homepageContent.site.siteUrl,
     },
     publisher: {
       "@type": "Person",

@@ -1,0 +1,50 @@
+---
+title: "Algility: Official Website, Profiles & Contact"
+description: "Find Algility’s official website, company profiles, reviews, and contact links, with a guide to its AI systems and custom software work."
+date: "2026-09-30"
+tags:
+  - Algility
+  - AI systems
+  - Company guide
+published: true
+layout: docs
+---
+
+<script>
+  import AlgilityDirectory from "$lib/features/blog/components/AlgilityDirectory.svelte";
+</script>
+
+If you are researching Algility, this is a starting point for finding the company’s official channels, reviewing its work, and getting in touch. I’m Christian Garcia, Algility’s founder. I put this guide together so you can find the right company profiles without sorting through similarly named businesses.
+
+## What is Algility?
+
+[Algility](https://www.algility.com/) builds AI systems and custom software for organizations that need their tools to fit existing workflows, data access requirements, and human review. Its current focus is AI for high-stakes industries, alongside systems for sales, growth, and operations.
+
+The work includes internal applications, system integrations, document intake, research tools, and task-specific AI workflows. A useful first conversation starts with the work your team needs to complete, the systems it already uses, and the decisions people need to keep control of.
+
+## Official links and company profiles
+
+Use the official website for current services and contact details. Use the social profiles for company updates, and the review platforms to read what clients have chosen to share. These links are cross-referenced with [Algility’s official directory](https://algility.us/) and its website.
+
+<AlgilityDirectory />
+
+## What to look for when evaluating Algility
+
+A directory listing helps you find a company. Evaluating a software or AI partner takes a closer look at the actual work. Here are four useful questions to bring to a scoping conversation:
+
+1. **What is the first workflow?** Describe a specific task, its inputs, its output, and who uses the result. A document review queue is a clearer starting point than “add AI to our business.”
+2. **What needs human approval?** Identify decisions that require a person, exceptions that should be escalated, and who owns the final outcome.
+3. **How will the system fit our environment?** List the tools and data sources involved, the access each component needs, and who will maintain the integration.
+4. **How will we judge the first release?** Agree on observable acceptance criteria, such as completing a workflow accurately on representative examples, before expanding the scope.
+
+Algility’s published process follows discovery, design, deployment, and improvement. For current offerings and project discussions, start with the official website rather than relying on older directory descriptions.
+
+## Who is behind Algility?
+
+I’m [Christian Garcia](/), a full stack developer and the founder of Algility. This is my own company guide, not an independent review. My portfolio includes selected web applications and websites, and my [GitHub profile](https://github.com/christsx) shows my public development activity.
+
+You can also read the [Algility company overview](/algility) on this site. For independent client feedback, follow the Clutch, GoodFirms, and The Manifest links above and read the original entries in context.
+
+## How to contact Algility
+
+For a new project, [visit Algility’s contact page](https://www.algility.com/contact) or [book a conversation](https://cal.com/algility). Bring a short description of the workflow, the tools involved, and what a successful first version would do. That makes it easier to discuss a practical scope and next step.

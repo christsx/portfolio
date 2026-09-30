@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from "$app/state";
+  import { resolve } from "$app/paths";
   import FooterSection from "$lib/components/home/sections/FooterSection.svelte";
   import Separator from "$lib/components/ui/Separator.svelte";
   import { homepageContent } from "$lib/content/homepage-content";
@@ -45,7 +46,7 @@
 
 <div class="w-full p-4">
   <a
-    href="/"
+    href={resolve("/")}
     class="text-foreground-muted hover:text-foreground inline-flex items-center gap-1.5 text-xs leading-none font-medium duration-150 ease-out"
   >
     ← Back to home
@@ -56,37 +57,44 @@
   <article class="text-foreground-muted space-y-4 text-sm leading-relaxed">
     <p class="text-foreground-muted text-xs tracking-wide uppercase">Company</p>
     <h1 class="text-foreground text-2xl leading-tight font-medium">Algility</h1>
-    <p class="text-foreground text-base">
-      AI-native systems for sales, growth, and customer acquisition.
+    <p class="text-foreground text-base">AI-native systems for sales, growth, and customer acquisition.</p>
+
+    <p>
+      Algility was founded in 2024 by <strong class="text-foreground">Christian Garcia</strong>. The company builds and
+      deploys AI-native systems for SMBs and enterprises — not another dashboard, the operating layer that connects the
+      tools teams already pay for.
     </p>
 
     <p>
-      Algility was founded in 2024 by <strong class="text-foreground">Christian Garcia</strong>.
-      The company builds and deploys AI-native systems for SMBs and enterprises — not another
-      dashboard, the operating layer that connects the tools teams already pay for.
-    </p>
-
-    <p>
-      Core work: sales systems, growth systems, customer acquisition workflows. Stack includes CRM,
-      inbox, Airtable, Zapier, OpenAI, Claude, and custom automation.
+      Core work: sales systems, growth systems, customer acquisition workflows. Stack includes CRM, inbox, Airtable,
+      Zapier, OpenAI, Claude, and custom automation.
     </p>
 
     <p>
       Official site:
-      <a class="text-foreground underline underline-offset-2" href="https://algility.com/" rel="external noreferrer noopener"
-        >algility.com</a
+      <a
+        class="text-foreground underline underline-offset-2"
+        href="https://algility.com/"
+        rel="external noreferrer noopener">algility.com</a
       >
     </p>
 
     <p>
       Full Stack Developer:
-      <a class="text-foreground underline underline-offset-2" href="/">Christian Garcia</a>
+      <a class="text-foreground underline underline-offset-2" href={resolve("/")}>Christian Garcia</a>
       ·
       <a
         class="text-foreground underline underline-offset-2"
         href="https://www.linkedin.com/company/algility"
         rel="external noreferrer noopener">Algility on LinkedIn</a
       >
+    </p>
+    <p>
+      Find company channels and review listings in the
+      <a
+        class="text-foreground underline underline-offset-2"
+        href={resolve("/blog/algility-official-links-and-profiles")}>Algility official links and profiles guide</a
+      >.
     </p>
   </article>
 </div>
