@@ -66,18 +66,6 @@ export const projectsData: { title: string; ctaLabel: string; githubCtaLabel: st
       href: "https://quevo.ai/",
     },
     {
-      title: "Hack for LA",
-      description: "Civic tech volunteer org website for Los Angeles.",
-      image: "/images/works/hackforla.webp",
-      href: "https://www.hackforla.org/",
-    },
-    {
-      title: "8AM House",
-      description: "Apparel and merch shop for the 8AM brand.",
-      image: "/images/works/8amhouse.webp",
-      href: "https://8amhouse.com/",
-    },
-    {
       title: "Oruco",
       description: "Website for an AI operating system agency.",
       image: "/images/works/oruco.webp",
