@@ -37,10 +37,16 @@
   const state = new ContributionGraphState(() => ({ username, days, text, data }));
 
   const legendLevels: ContributionLevel[] = [0, 1, 2, 3, 4];
+
+  function startAtLatest(node: HTMLDivElement) {
+    // Set the initial position only, so visitors can still scroll back freely.
+    node.scrollLeft = node.scrollWidth - node.clientWidth;
+  }
 </script>
 
 <div class={cn("bg-background card w-full rounded-md p-4", className)}>
   <div
+    use:startAtLatest
     class="overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
     role="img"
     tabindex="-1"
