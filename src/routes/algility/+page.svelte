@@ -80,7 +80,7 @@
     </p>
 
     <p>
-      Full Stack Developer:
+      Founder of Algility:
       <a class="text-foreground underline underline-offset-2" href={resolve("/")}>Christian Garcia</a>
       ·
       <a

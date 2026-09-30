@@ -5,7 +5,7 @@ export const aboutData: { title: string; items: AboutListItem[] } = {
   items: [
     {
       content: [
-        { type: "text", text: "Full Stack Developer at " },
+        { type: "text", text: "Founder of " },
         { type: "link", text: "Algility", href: "https://algility.com/" },
         {
           type: "text",
@@ -27,7 +27,7 @@ export const aboutData: { title: string; items: AboutListItem[] } = {
     },
     {
       content: [
-        { type: "highlight", text: "Full Stack Developer" },
+        { type: "highlight", text: "Founder of Algility" },
         {
           type: "text",
           text: " with 4+ years of experience, known for passion for design and strong attention to small details.",

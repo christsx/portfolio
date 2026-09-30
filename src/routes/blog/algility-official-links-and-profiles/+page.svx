@@ -41,7 +41,7 @@ Algility’s published process follows discovery, design, deployment, and improv
 
 ## Who is behind Algility?
 
-I’m [Christian Garcia](/), a full stack developer and the founder of Algility. This is my own company guide, not an independent review. My portfolio includes selected web applications and websites, and my [GitHub profile](https://github.com/christsx) shows my public development activity.
+I’m [Christian Garcia](/), the founder of Algility. This is my own company guide, not an independent review. My portfolio includes selected web applications and websites, and my [GitHub profile](https://github.com/christsx) shows my public development activity.
 
 You can also read the [Algility company overview](/algility) on this site. For independent client feedback, follow the Clutch, GoodFirms, and The Manifest links above and read the original entries in context.
 
